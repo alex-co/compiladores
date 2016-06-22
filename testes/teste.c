@@ -40,7 +40,7 @@ main {
 
    if (intlocal >= floatlocal){ 
       intlocal = intv;
-      
+   }    
 
    while (floatlocal <= intlocal && floatlocal > bola) {
       intlocal++;

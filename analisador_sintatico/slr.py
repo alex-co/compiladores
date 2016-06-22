@@ -5,11 +5,15 @@ import sys
 import copy
 import gramatica
 
+###############################################################################
+
+
 class Item(object):
+
     def __init__(self, simbolo, produz, pos = 0):
         self.__simbolo__ = simbolo
-        self.__produz__ = tuple(produz)
-        self.__pos__ = pos
+        self.__produz__  = tuple(produz)
+        self.__pos__     = pos
 	
     def proximoItem(self):
         return Item(self.__simbolo__, self.__produz__, self.__pos__ + 1)
@@ -45,7 +49,12 @@ class Item(object):
             rhs += '.'
         return '%s -> %s' % (self.__simbolo__, rhs)
 
+
+###############################################################################
+
+
 class Estado(object):
+
     def __init__(self, itens):
         self.__itens__ = set(itens)
 	
@@ -83,11 +92,13 @@ class Estado(object):
         return ' ' + '\n '.join(str(item) for item in self.__itens__)
 
 
+###############################################################################
+
+
 NADA    = ''
 REDUZ   = 'Reduz'
 EMPILHA = 'Empilha'
 ACEITA  = 'AC'
-		
 
 class Slr(object):
 
@@ -95,11 +106,12 @@ class Slr(object):
         self.__gramatica__ = gramatica
         self.__geraEstados__()
 
-    # gera os estados que serão irão compor a tabela	
+    # Gera os estados que serão irão compor a tabela
+    
     def __geraEstados__(self):
         self.__estados__ = []
 
-        # partindo do estado0
+        # partindo do estado 0
         estado0 = Estado(Item(gramatica.INICIO, produz) for produz in self.__gramatica__.producoes(gramatica.INICIO))
         estado0.fecha(self.__gramatica__)
 
@@ -134,6 +146,12 @@ class Slr(object):
 
         self.__tabela__ = tabela
 	
+    
+    # Análise dos tokens percorrendo a tabela slr(1) da gramática.
+    #
+    # pilha1 => contém os estados
+    # pilha2 => contém os símbolos
+
     def parse(self, simbolos):
         simbolos = list(simbolos)
         simbolos.append(gramatica.FIM)
@@ -146,7 +164,9 @@ class Slr(object):
         reduzi = False
         iter_simbolos = iter(simbolos)
         simbolo = iter_simbolos.next()
+        
         while not aceita:
+            
             if not self.__tabela__[estado].has_key(simbolo):
                 return {'result': False, 'line': line_token, 'token': simbolo}
 
@@ -156,6 +176,7 @@ class Slr(object):
                 aceita = True
 
             elif acao[0] == EMPILHA:
+                
                 pilha1.append(estado)
                 pilha2.append(simbolo)
                 estado = acao[1]
@@ -163,11 +184,24 @@ class Slr(object):
                 line_token += 1
 
             elif acao[0] == REDUZ:
+                
                 for i in xrange(len(acao[1].produz())):
                     estado = pilha1.pop()
                     pilha2.pop()
+                
                 pilha1.append(estado)
                 pilha2.append(acao[1].simbolo())
                 estado = self.__tabela__[estado][acao[1].simbolo()][1]
+                
+                # [DEBUG] estado/acao atual
+                # print estado
+                
+                # [DEBUG] Pilha com estados 
+                # print pilha1
+
+                # [DEBUG] Pilha com simbolos
+                # print pilha2
 
         return {'result': True}
+
+###############################################################################
