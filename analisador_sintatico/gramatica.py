@@ -6,8 +6,8 @@ import pdb
 import sys
 
 EPSILON = 'EPSILON'
-INICIO = 'S'
-FIM = '#'
+INICIO  = 'S'
+FIM     = '$'
 
 def iter_r(seq):
     for i, d in enumerate(seq):
@@ -66,6 +66,7 @@ class Gramatica(object):
                     resp |= (self.__first__[simbolo] - set([EPSILON]))
             else:
                 resp.add(EPSILON)
+#            print resp
             return resp
 
         # calcula conjunto FIRST para todo mundo

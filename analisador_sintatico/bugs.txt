@@ -1,0 +1,15 @@
+
+-------------------------------------------------------------------------------
+
+    1) - Retirando um } do final de 'if', 'for' ou 'while':
+
+Sintatical analysis -------------------------------------
+Traceback (most recent call last):
+  File "compiler.py", line 88, in <module>
+    main(sys.argv)
+  File "compiler.py", line 84, in main
+    print 'Syntactical error near "%s" at line %s' % (result.get('token'),
+lines[int(result.get('line'))])
+IndexError: list index out of range
+
+-------------------------------------------------------------------------------

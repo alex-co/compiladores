@@ -4,7 +4,7 @@ const b = 1;
 int functionc() {
     int d;
     d = 2;
-    return d
+    return d;
 }
 
 main {
