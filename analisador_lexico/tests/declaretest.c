@@ -1,0 +1,15 @@
+int var1;
+int var2;
+int asdfasdfasdfasdfasdfasdfasdfasdfasdfSTRINGBEMGRANDENEHasdfasdfasdfasdfasdfasdfasdfasdfasdf;
+
+float var1;
+float var2;
+float asdfasdfasdfasdfasdfasdfasdfasdfasdfSTRINGBEMGRANDENEHasdfasdfasdfasdfasdfasdfasdfasdfasdf;
+
+char var1;
+char var2;
+char asdfasdfasdfasdfasdfasdfasdfasdfasdfSTRINGBEMGRANDENEHasdfasdfasdfasdfasdfasdfasdfasdfasdf;
+
+string var1;
+string var2;
+string asdfasdfasdfasdfasdfasdfasdfasdfasdfSTRINGBEMGRANDENEHasdfasdfasdfasdfasdfasdfasdfasdfasdf;
