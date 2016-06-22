@@ -1,3 +1,6 @@
+
+    LISTA DE ESTADOS ( 0 - 129 )
+
 0:   PROG -> . DECL_VAR CONST FUNCOES MAIN 
      DECL_VAR -> .
      TIPO -> . int 
