@@ -15,6 +15,7 @@ class Item(object):
         self.__produz__  = tuple(produz)
         self.__pos__     = pos
 	
+    # Retorna o próximo item
     def proximoItem(self):
         return Item(self.__simbolo__, self.__produz__, self.__pos__ + 1)
 
@@ -38,6 +39,9 @@ class Item(object):
 
     def __eq__(self, item):
         return self.__simbolo__ == item.__simbolo__ and self.__produz__ == item.__produz__ and self.__pos__ == item.__pos__
+
+    
+    # Representação símbolo -> produção
 
     def __repr__(self):
         rhs = ''
@@ -151,7 +155,6 @@ class Slr(object):
 	
     
     # Análise dos tokens percorrendo a tabela slr(1) da gramática.
-    #
     # pilha1 => contém os estados
     # pilha2 => contém os símbolos
 
