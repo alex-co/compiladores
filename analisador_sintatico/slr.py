@@ -124,8 +124,11 @@ class Slr(object):
             for item in estado.itens():
                 if item.fim():
                     for simbolo in self.__gramatica__.sequencia(item.simbolo()):
+                        
+                        # slr(1) não resolve conflito reduz-reduz => abortar
                         if tabela[numero].setdefault(simbolo, (NADA, 0))[0] == REDUZ:
                             raise Exception('reduz-reduz detectado!')
+                        
                         if tabela[numero][simbolo][0] == NADA:
                             tabela[numero][simbolo] = (REDUZ, item.producao())
 
@@ -153,6 +156,7 @@ class Slr(object):
     # pilha2 => contém os símbolos
 
     def parse(self, simbolos):
+        
         simbolos = list(simbolos)
         simbolos.append(gramatica.FIM)
         line_token = 0
@@ -193,14 +197,17 @@ class Slr(object):
                 pilha2.append(acao[1].simbolo())
                 estado = self.__tabela__[estado][acao[1].simbolo()][1]
                 
-                # [DEBUG] estado/acao atual
-                # print estado
+            # [DEBUG] Ações Empilha/Reduz/Aceita
+            # print acao
                 
-                # [DEBUG] Pilha com estados 
-                # print pilha1
+            # [DEBUG] estado/acao atual da iteração
+            # print estado
+                
+            # [DEBUG] Pilha com estados 
+            #  print pilha1
 
-                # [DEBUG] Pilha com simbolos
-                # print pilha2
+            # [DEBUG] Pilha com simbolos
+            # print pilha2
 
         return {'result': True}
 
