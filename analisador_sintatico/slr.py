@@ -173,7 +173,7 @@ class Slr(object):
         simbolo = iter_simbolos.next()
         
         while not aceita:
-            
+			
             if not self.__tabela__[estado].has_key(simbolo):
                 return {'result': False, 'line': line_token, 'token': simbolo}
 
@@ -205,13 +205,17 @@ class Slr(object):
                 
             # [DEBUG] estado/acao atual da iteração
             # print estado
-                
+            
+            print '----------------------' 
+            
             # [DEBUG] Pilha com estados 
-            #  print pilha1
+            print pilha1
 
             # [DEBUG] Pilha com simbolos
-            # print pilha2
-
+            print pilha2
+        
+            print str(estado) + ' -> ' + str(acao)
+            
         return {'result': True}
 
 ###############################################################################
