@@ -5,17 +5,13 @@ import sys
 import copy
 import gramatica
 
-###############################################################################
-
-
 class Item(object):
-
+    
     def __init__(self, simbolo, produz, pos = 0):
         self.__simbolo__ = simbolo
         self.__produz__  = tuple(produz)
         self.__pos__     = pos
 	
-    # Retorna o próximo item
     def proximoItem(self):
         return Item(self.__simbolo__, self.__produz__, self.__pos__ + 1)
 
@@ -40,9 +36,6 @@ class Item(object):
     def __eq__(self, item):
         return self.__simbolo__ == item.__simbolo__ and self.__produz__ == item.__produz__ and self.__pos__ == item.__pos__
 
-    
-    # Representação símbolo -> produção
-
     def __repr__(self):
         rhs = ''
         for n, simbolo in enumerate(self.__produz__):
@@ -54,11 +47,8 @@ class Item(object):
         return '%s -> %s' % (self.__simbolo__, rhs)
 
 
-###############################################################################
-
-
 class Estado(object):
-
+    
     def __init__(self, itens):
         self.__itens__ = set(itens)
 	
@@ -96,13 +86,11 @@ class Estado(object):
         return ' ' + '\n '.join(str(item) for item in self.__itens__)
 
 
-###############################################################################
-
-
 NADA    = ''
 REDUZ   = 'Reduz'
 EMPILHA = 'Empilha'
 ACEITA  = 'AC'
+		
 
 class Slr(object):
 
@@ -110,12 +98,11 @@ class Slr(object):
         self.__gramatica__ = gramatica
         self.__geraEstados__()
 
-    # Gera os estados que serão irão compor a tabela
-    
+    # gera os estados que serão irão compôr a tabela	
     def __geraEstados__(self):
         self.__estados__ = []
 
-        # partindo do estado 0
+        # partindo do estado0
         estado0 = Estado(Item(gramatica.INICIO, produz) for produz in self.__gramatica__.producoes(gramatica.INICIO))
         estado0.fecha(self.__gramatica__)
 
@@ -128,11 +115,8 @@ class Slr(object):
             for item in estado.itens():
                 if item.fim():
                     for simbolo in self.__gramatica__.sequencia(item.simbolo()):
-                        
-                        # slr(1) não resolve conflito reduz-reduz => abortar
                         if tabela[numero].setdefault(simbolo, (NADA, 0))[0] == REDUZ:
                             raise Exception('reduz-reduz detectado!')
-                        
                         if tabela[numero][simbolo][0] == NADA:
                             tabela[numero][simbolo] = (REDUZ, item.producao())
 
@@ -153,27 +137,19 @@ class Slr(object):
 
         self.__tabela__ = tabela
 	
-    
-    # Análise dos tokens percorrendo a tabela slr(1) da gramática.
-    # pilha1 => contém os estados
-    # pilha2 => contém os símbolos
-
     def parse(self, simbolos):
-        
         simbolos = list(simbolos)
         simbolos.append(gramatica.FIM)
         line_token = 0
 
         aceita = False
-        pilha1 = []
+        pilha = []
         pilha2 = []
         estado = 0
         reduzi = False
         iter_simbolos = iter(simbolos)
         simbolo = iter_simbolos.next()
-        
         while not aceita:
-			
             if not self.__tabela__[estado].has_key(simbolo):
                 return {'result': False, 'line': line_token, 'token': simbolo}
 
@@ -183,39 +159,18 @@ class Slr(object):
                 aceita = True
 
             elif acao[0] == EMPILHA:
-                
-                pilha1.append(estado)
+                pilha.append(estado)
                 pilha2.append(simbolo)
                 estado = acao[1]
                 simbolo = iter_simbolos.next()
                 line_token += 1
 
             elif acao[0] == REDUZ:
-                
                 for i in xrange(len(acao[1].produz())):
-                    estado = pilha1.pop()
+                    estado = pilha.pop()
                     pilha2.pop()
-                
-                pilha1.append(estado)
+                pilha.append(estado)
                 pilha2.append(acao[1].simbolo())
                 estado = self.__tabela__[estado][acao[1].simbolo()][1]
-                
-            # [DEBUG] Ações Empilha/Reduz/Aceita
-            # print acao
-                
-            # [DEBUG] estado/acao atual da iteração
-            # print estado
-            
-            print '----------------------' 
-            
-            # [DEBUG] Pilha com estados 
-            print pilha1
 
-            # [DEBUG] Pilha com simbolos
-            print pilha2
-        
-            print str(estado) + ' -> ' + str(acao)
-            
         return {'result': True}
-
-###############################################################################

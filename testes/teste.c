@@ -38,13 +38,13 @@ main {
    char problematico;
 
 
-   if (intlocal >= floatlocal){ 
+   if (intlocal >= floatlocal) {
       intlocal = intv;
-   }    
+    }
 
    while (floatlocal <= intlocal && floatlocal > bola) {
       intlocal++;
-   } 
+    }
 
    if (intlocal == floatlocal || intlocal <= floatlocal) {
       charlocal = 'i';

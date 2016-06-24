@@ -5,24 +5,19 @@ import copy
 import pdb
 import sys
 
-###############################################################################
-
 EPSILON = 'EPSILON'
-INICIO  = 'S'
-FIM     = '$'
+INICIO = 'S'
+FIM = '#'
 
 def iter_r(seq):
     for i, d in enumerate(seq):
         yield (d, seq[i+1:])
 
-###############################################################################
-
 class Producao(object):
-
     def __init__(self, simbolo, produz):
         self.__simbolo__ = simbolo
         self.__produz__ = tuple(produz)
-
+	
     def simbolo(self):
         return self.__simbolo__
 
@@ -41,12 +36,7 @@ class Producao(object):
     def __cmp__(self, prod):
         return self.__simbolo__ == prod.__simbolo__ and self.__produz__ == prod.__produz__
 
-
-###############################################################################
-
-
 class Gramatica(object):
-
     def __init__(self, regras, inicial):
         self.__regras__      = (Producao(INICIO, (inicial, FIM)),) + tuple(Producao(regra[0], tuple(regra[1])) for regra in regras )
         self.__regras_dict__ = dict()
@@ -60,10 +50,8 @@ class Gramatica(object):
         self.__first__      = dict((simbolo, set()) for simbolo in self.__nterminais__)
         self.__follow__     = dict((simbolo, set()) for simbolo in self.__simbolos__)
 
-        # Encontra o conjunto first individualmente
-        
+        # calcula conjunto first individualmente
         def fi(simbolos):
-        
             if len(simbolos) == 0:
                 return set([EPSILON])
             resp = set()
@@ -78,13 +66,9 @@ class Gramatica(object):
                     resp |= (self.__first__[simbolo] - set([EPSILON]))
             else:
                 resp.add(EPSILON)
-
-            # [DEBUG] first
-            # print resp
             return resp
 
-        # Encontra o conjunto FIRST para todo mundo
-
+        # calcula conjunto FIRST para todo mundo
         change = True
         while change:
             change = False
@@ -95,8 +79,7 @@ class Gramatica(object):
                     self.__first__[regra.simbolo()] |= f
 
 
-        # Encontra conjunto FOLLOW para todo mundo
-
+        # calcula conjunto FOLLOW para todo mundo
         change = True
         while change:
             change = False
@@ -111,9 +94,6 @@ class Gramatica(object):
                             change = True
                             self.__follow__[simbolo] |= self.__follow__[regra.simbolo()]
 
-
-    # geters para estruturas privadas:
-
     def sequencia(self, simbolo):
         return self.__follow__[simbolo]
 
@@ -126,4 +106,3 @@ class Gramatica(object):
     def producoes(self, simbolo):
         return self.__regras_dict__[simbolo]
 
-###############################################################################
