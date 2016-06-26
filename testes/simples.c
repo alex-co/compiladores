@@ -1,13 +1,22 @@
 int a;
-const b = 1;
+
+const int b = 10;
 
 int functionc() {
     int d;
     d = 2;
-    return d
+    return d;
 }
 
 main {
+    
     int e;
-    e = 1;
+    
+    for(e=0; e < 12; e++)
+    
+    char c;
+    string xyz;
+    float i;
+    
+    e = 22;
 }

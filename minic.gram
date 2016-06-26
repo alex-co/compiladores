@@ -3,7 +3,7 @@ PROG      -> DECL_VAR CONST FUNCOES MAIN
 DECL_VAR  -> TIPO id ; DECL_VAR
 DECL_VAR  ->
 
-CONST     -> const id = num ; CONST
+CONST     -> const TIPO id = num ; CONST
 CONST     ->
 
 FUNCOES   -> FUNCAO FUNCOES

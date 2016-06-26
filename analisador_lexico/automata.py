@@ -6,10 +6,13 @@ import error_messages as error
 line = 0
 
 def skip_blank(fp):
-   symbol = fp.read(grammar.CHAR)
+
    global line
+   
+   symbol = fp.read(grammar.CHAR)
 
    while True:
+
       if not symbol.isspace():
          fp.seek(fp.tell() - 1)
          break
@@ -22,12 +25,15 @@ def skip_blank(fp):
 
 
 def skip_comment(fp):
-   window = fp.read(grammar.CHAR)
+   
    global line
+   
+   window = fp.read(grammar.CHAR)
 
    open_comment_line = line
 
    while True:
+
       symbol = fp.read(grammar.CHAR)
 
       if symbol == grammar.NEWLINE:
@@ -47,16 +53,19 @@ def skip_comment(fp):
          break
 
    return {grammar.COMMENT: grammar.COMMENT}
+
 # ------------------------------------------------------------------------------
 
 
 def is_alpha(fp, ch):
+
    """Return an alpha token (identifiers, reserved words and language types)"""
    global line
    symbol = ch
    lexeme = ''
 
    while True:
+
       if symbol in grammar.FORBIDDEN:
          return {grammar.ERROR: error.FORBIDDEN_SYMBOL % (line + 1, symbol)}
 
@@ -75,8 +84,10 @@ def is_alpha(fp, ch):
 
    if lexeme in grammar.DATA_TYPE:
       token = {grammar.TOKEN: "<type;%s>" % (lexeme)}
+   
    elif lexeme in grammar.RESERVED: 
       token = {grammar.TOKEN: "<reserved;%s>" % (lexeme)}
+   
    else:
       token = {grammar.TOKEN: "<%s;id>" % (lexeme)}
 
@@ -86,15 +97,19 @@ def is_alpha(fp, ch):
 
 
 def is_digit(fp, ch):
+
    """Return a number token"""
    global line
+
    has_point = False
    symbol = ch
    lexeme = ""
-   token = {}
-   global line
+   token  = {}
+
+#   global line
 
    while True:
+
       if symbol in grammar.FORBIDDEN:
          return {grammar.ERROR: error.FORBIDDEN_SYMBOL % (line + 1, symbol)}
 
@@ -129,6 +144,7 @@ def is_digit(fp, ch):
    
    token = {grammar.TOKEN: "<%s;num>" % (lexeme)}
    return token
+
 # ------------------------------------------------------------------------------
 
 
@@ -161,14 +177,15 @@ def is_arithmetic_op(fp, ch):
          token = {grammar.TOKEN: "<op_arit;%s>" % (symbol)}
          fp.seek(fp_pos)
 
-
    return token
+
 # ------------------------------------------------------------------------------
 
 def is_logic_op(fp, ch):
-   global line
-   token = {}
 
+   global line
+
+   token  = {}
    symbol = ch
    lexeme = symbol + fp.read(1)
 
@@ -181,15 +198,17 @@ def is_logic_op(fp, ch):
       token = {grammar.ERROR: error.UNKNOWN_LOGIC_OPERATOR % (line + 1, lexeme)}   
 
    return token
+
 # ------------------------------------------------------------------------------
    
 
 def is_rel_op_or_attr(fp, ch):
+
    global line
 
    symbol = ch
    lexeme = symbol
-   token = {}
+   token  = {}
 
    if lexeme in grammar.LOGIC_OP:
       token = {grammar.TOKEN: "<op_log;%s>" % (lexeme)}
@@ -212,19 +231,24 @@ def is_rel_op_or_attr(fp, ch):
       fp.seek(fp_pos)
    
    return token
+
 # ------------------------------------------------------------------------------
 
 
 def is_special_char(fp, ch):
+
    token = {grammar.TOKEN: "<;%s>" % (ch)}
    return token
+
 # ------------------------------------------------------------------------------
 
 
 def is_string_char_value(fp, ch):
+   
+   global line
+   
    symbol = ch
    lexeme = symbol
-   global line
 
    if symbol == grammar.SINGLEQUOTE:
       symbol = fp.read(grammar.CHAR)
@@ -256,15 +280,18 @@ def is_string_char_value(fp, ch):
             break
 
    return token
+
 # ------------------------------------------------------------------------------
 
 
 def get_token(fp):
-   skip_blank(fp)
-   symbol = fp.read(grammar.CHAR)
-   token = {}
+
    global line
 
+   skip_blank(fp)
+   symbol = fp.read(grammar.CHAR)
+   token  = {}
+   
    if symbol in grammar.QUOTES:
       token = is_string_char_value(fp, symbol)
 
@@ -299,3 +326,4 @@ def get_token(fp):
 
    return token, line
 
+# ------------------------------------------------------------------------------

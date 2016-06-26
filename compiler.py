@@ -10,7 +10,13 @@ sys.path.insert(0, 'analisador_sintatico/')
 from gramatica import Gramatica
 from slr import Slr
 
+sys.path.insert(0, 'verificador_tipos/')
+from veritypes import VerifTipos
+
+
+
 def import_gram(gfile):
+
     f = file(gfile)
     conta = 0   
     prods = list()
@@ -28,10 +34,32 @@ def import_gram(gfile):
             raise Exception('Erro: %s:%d' % (arquivo, conta))
 
         prods.append((regra[0],(regra[2:])))
+    
     return prods
+    
+
+
+def tokens_by_line(tokens_list, token_ln):
+    
+    token  = token_ln[0].get('token')
+    line_n = str(token_ln[1] + 1)
+
+    if not tokens_list:
+        tokens_list.append([line_n,token])
+    else:
+        for line in tokens_list:
+            if line_n in line[0]:
+                line.append(token)
+                break
+        else:
+            tokens_list.append([line_n,token])
+
+    return
+
 
 
 def main(argv):
+
     # importa gramatica
     producoes = import_gram('minic.gram')
 
@@ -43,11 +71,21 @@ def main(argv):
 
     # tabela de simbolos
     symbol_table = list()
-    tokens = list()
-    lines = list()
+    tokens       = list()
+    lines        = list()
+    
+    # para uso do verificador de tipos
+    tokens_list = list()
 
-    print "Lexical analysis ----------------------------------------"
+#=======================================================================
+# Analisador Léxico
+
+    print "---------------------------------------------------------"
+    print "---------------------------------------------------------"
+    print "Lexical analysis status:"
+
     with open(source) as fp: 
+
         while True:
             token_line = automata.get_token(fp)
             token = token_line[0]
@@ -59,30 +97,48 @@ def main(argv):
                     sys.exit()
 
                 if token.has_key('token'):
+                    token_id   = token.get('token').split(';')[0][1:]
+                    token_attr = token.get('token').split(';', 1)[1][:-1]
                     dest.write(token.get('token') + '\n')
-                    tokens.append(token.get('token').split(';', 1)[1][:-1])
+                    tokens.append(token_attr)
                     lines.append(line)
-
-                    if (token.get('token').split(';')[0])[1:] == "id":
-                        identifier = (token.get('token').split(';')[1])[:-1]
-                        table_entry = {'identifier': identifier} 
-                        symbol_table.append(table_entry)
+                    
+                    tokens_by_line(tokens_list, token_line)
 
                 if token.has_key('eof'):
-                    print "\n%d lines were scanned, everything is fine!" % (token.get('eof'))
-                    print "---------------------------------------------------------\n\n"
+                    print "  %d lines scanned, everything is fine so far..." % (token.get('eof'))
+                    print "---------------------------------------------------------"
                     break
 
-    print "Sintatical analysis -------------------------------------"
+#=======================================================================
+# Verificador de Tipos
+
+    print "---------------------------------------------------------"
+    print "Types matching analysis status:"
+
+    vt = VerifTipos(tokens_list);
+
+    print vt.matching_result()
+    print "---------------------------------------------------------"
+
+#=======================================================================
+# Analisador Sintático
+    
+    print "---------------------------------------------------------"
+    print "Sintactical analysis status:"
+
     grammar = Gramatica(producoes, producoes[0][0])
     slr     = Slr(grammar)
     result  = slr.parse(tokens)
 
     if result.get('result'):
-        print 'Everything went fine. No syntactical errors found.'
+        print '  No syntactical errors found, everything is definitely fine!'
     else:
-        print 'Syntactical error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
+        print '  Syntactical error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
     print "---------------------------------------------------------"
+    print "---------------------------------------------------------"
+
+#=======================================================================
 
 if __name__ == '__main__':
     main(sys.argv)

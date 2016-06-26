@@ -5,6 +5,8 @@ import sys
 import copy
 import gramatica
 
+#-----------------------------------------------------------------------
+    
 class Item(object):
     
     def __init__(self, simbolo, produz, pos = 0):
@@ -46,6 +48,7 @@ class Item(object):
             rhs += '.'
         return '%s -> %s' % (self.__simbolo__, rhs)
 
+#-----------------------------------------------------------------------
 
 class Estado(object):
     
@@ -86,11 +89,13 @@ class Estado(object):
         return ' ' + '\n '.join(str(item) for item in self.__itens__)
 
 
+#-----------------------------------------------------------------------
+
 NADA    = ''
 REDUZ   = 'Reduz'
 EMPILHA = 'Empilha'
 ACEITA  = 'AC'
-		
+
 
 class Slr(object):
 
@@ -98,11 +103,13 @@ class Slr(object):
         self.__gramatica__ = gramatica
         self.__geraEstados__()
 
-    # gera os estados que serão irão compôr a tabela	
+    #-------------------------------------------------------------------
+
+    # Gera os estados que serão irão compôr a tabela	
     def __geraEstados__(self):
         self.__estados__ = []
 
-        # partindo do estado0
+        # Partindo do estado 0 ...
         estado0 = Estado(Item(gramatica.INICIO, produz) for produz in self.__gramatica__.producoes(gramatica.INICIO))
         estado0.fecha(self.__gramatica__)
 
@@ -137,13 +144,16 @@ class Slr(object):
 
         self.__tabela__ = tabela
 	
+    #-------------------------------------------------------------------
+    
     def parse(self, simbolos):
+        
         simbolos = list(simbolos)
         simbolos.append(gramatica.FIM)
         line_token = 0
-
+        
         aceita = False
-        pilha = []
+        pilha1 = []
         pilha2 = []
         estado = 0
         reduzi = False
@@ -159,17 +169,17 @@ class Slr(object):
                 aceita = True
 
             elif acao[0] == EMPILHA:
-                pilha.append(estado)
+                pilha1.append(estado)
                 pilha2.append(simbolo)
-                estado = acao[1]
+                estado  = acao[1]
                 simbolo = iter_simbolos.next()
                 line_token += 1
 
             elif acao[0] == REDUZ:
                 for i in xrange(len(acao[1].produz())):
-                    estado = pilha.pop()
+                    estado = pilha1.pop()
                     pilha2.pop()
-                pilha.append(estado)
+                pilha1.append(estado)
                 pilha2.append(acao[1].simbolo())
                 estado = self.__tabela__[estado][acao[1].simbolo()][1]
 

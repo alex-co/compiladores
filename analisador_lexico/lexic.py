@@ -10,6 +10,7 @@ if __name__ == "__main__":
    symbol_table = list()
     
    with open(source) as fp:
+
       while True:
          token = automata.get_token(fp)
          if not token.has_key('comment'):
@@ -22,7 +23,7 @@ if __name__ == "__main__":
 
                if (token.get('token').split(';')[0])[1:] == "id":
                   identifier = (token.get('token').split(';')[1])[:-1]
-                  table_entry = {'identifier': identifier} 
+                  table_entry = {'identifier': identifier}
                   symbol_table.append(table_entry)
 
             if token.has_key('eof'):
