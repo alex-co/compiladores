@@ -154,6 +154,7 @@ def is_arithmetic_op(fp, ch):
    """
    symbol = ch
    lexeme = symbol
+   token  = {}
 
    if symbol in ['*', '#']:
       token = {grammar.TOKEN: "<op_arit;%s>" % lexeme}

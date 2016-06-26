@@ -1,22 +1,36 @@
-int a;
 
-const int b = 10;
+/* int a; */
 
+/* const int b = 10; */
+/*
 int functionc() {
     int d;
     d = 2;
     return d;
 }
+*/
 
 main {
+  
+    /* TESTE: atribuição para constante */
+    /* "abc" = 3; */
     
-    int e;
+    /* TESTE: 'y' não foi declarado */
+    /* 
+    y = 12;
+    */
     
-    for(e=0; e < 12; e++)
-    
+    /* TESTE: Atribuição de tipos diferentes */
+    /*
+    int  e;
     char c;
-    string xyz;
-    float i;
+    c = 'a';
+    e = c;
+    float i;  
+    i = 22;
+    */
     
-    e = 22;
+    string s;
+    s = "xyz";
+
 }
