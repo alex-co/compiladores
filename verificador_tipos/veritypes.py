@@ -18,7 +18,7 @@ class VerifTipos(object):
         self.__matching__ = self.parse_lines()
 
     # Preenche tabela de tipos com todas a variáveis declaras
-    # ref.: self.__types_list__
+    # destino: self.__types_list__
 
     def build_types_table(self):
         
@@ -121,6 +121,9 @@ class VerifTipos(object):
     
     def op_logic_check(self,line,index):
         return (True, 'op_logic in position %d' % index)
+        
+    # TODO: Tratar casos de retorno de funções
+    # TODO: Tratar casos com declarações de constantes
     
     # Determina se um 'string' represnta um 'float'.
     
