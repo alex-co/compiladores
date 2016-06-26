@@ -1,16 +1,15 @@
 
-/* int a; */
 
-/* const int b = 10; */
-/*
 int functionc() {
     int d;
     d = 2;
     return d;
 }
-*/
+
 
 main {
+
+/* *** Testes para atribuições: *** */
   
     /* TESTE: atribuição para constante */
     /* "abc" = 3; */
@@ -22,15 +21,18 @@ main {
     
     /* TESTE: Atribuição de tipos diferentes */
     /*
-    int  e;
-    char c;
+    int   e;
+    char  c;
+    float f;
     c = 'a';
     e = c;
-    float i;  
     i = 22;
     */
-    
+
     string s;
     s = "xyz";
+
+/* ********************************* */
+
 
 }

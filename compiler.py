@@ -102,7 +102,8 @@ def main(argv):
                     dest.write(token.get('token') + '\n')
                     tokens.append(token_attr)
                     lines.append(line)
-                    
+                    # Monta uma tabela com os tokens contidos nas linhas
+                    # do código fonte para o verificador de tipos.
                     tokens_by_line(tokens_list, token_line)
 
                 if token.has_key('eof'):
