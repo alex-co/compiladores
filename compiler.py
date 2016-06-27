@@ -76,12 +76,14 @@ def main(argv):
     
     # para uso do verificador de tipos
     tokens_list = list()
+    
+    runaway   = True
+    separator = "---------------------------------------------------------"
 
 #=======================================================================
 # Analisador Léxico
 
-    print "---------------------------------------------------------"
-    print "---------------------------------------------------------"
+    print "%s\n%s" % (separator, separator)
     print "Lexical analysis status:"
 
     with open(source) as fp: 
@@ -108,36 +110,43 @@ def main(argv):
 
                 if token.has_key('eof'):
                     print "  %d lines scanned, everything is fine so far..." % (token.get('eof'))
-                    print "---------------------------------------------------------"
+                    runaway = False
                     break
-
-#=======================================================================
-# Verificador de Tipos
-
-    print "---------------------------------------------------------"
-    print "Types matching analysis status:"
-
-    vt = VerifTipos(tokens_list);
-
-    print vt.matching_result()
-    print "---------------------------------------------------------"
-
+    if runaway:
+        print "%s\n%s" % (separator, separator)
+        print "  Syntactic analysis aborted..."
+        sys.exit()
+        
 #=======================================================================
 # Analisador Sintático
     
-    print "---------------------------------------------------------"
-    print "Sintactical analysis status:"
+    print "%s\n%s" % (separator, separator)
+    print "Syntactic analysis status:"
 
     grammar = Gramatica(producoes, producoes[0][0])
     slr     = Slr(grammar)
     result  = slr.parse(tokens)
 
     if result.get('result'):
-        print '  No syntactical errors found, everything is definitely fine!'
+        print '  No syntactic errors found, everything remains fine.'
     else:
-        print '  Syntactical error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
-    print "---------------------------------------------------------"
-    print "---------------------------------------------------------"
+        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
+        print "  Type checking analysis aborted..."
+        print "%s\n%s" % (separator, separator)
+        sys.exit()
+
+
+#=======================================================================
+
+# Verificador de Tipos
+
+    print "%s\n%s" % (separator, separator)
+    print "Type checking analysis status:"
+
+    vt = VerifTipos(tokens_list);
+
+    print vt.matching_result()
+    print "%s\n%s" % (separator, separator)
 
 #=======================================================================
 

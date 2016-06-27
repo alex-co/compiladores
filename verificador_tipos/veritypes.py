@@ -63,9 +63,9 @@ class VerifTipos(object):
                     continue
                     
                 if not test_result[0]:
-                    return '  Types mismatch at line %s: \n  %s' % (line_n, test_result[1])
+                    return '  Type mismatch at line %s: \n  %s' % (line_n, test_result[1])
 
-        return '  No types mismatch found, everything remains fine.'
+        return '  No type mismatch found, everything is definitely fine!'
 
     # Restorna o tipo de um determinado 'id' da tabela de tipos
     # ou checa o tipo de um número ou o tipo de uma constante.
@@ -107,25 +107,44 @@ class VerifTipos(object):
             return (False, "'%s' to '%s' assignments are not allowed" % (type_after, type_before))
         return (True, "")
         
-    # TODO: Checa os tipos envolvidos em uma operação aritmética.
+    # Checa os tipos envolvidos em uma operação aritmética.
     
     def op_arit_check(self,line,index):
-        return (True, 'op_arit in position %d' % index)
+        
+        operator    = line[index].split(';')[1][:-1]
+        type_before = self.get_type(line,index,-1)
+        if type_before not in {'int','float'}:
+            return (False, "Arithmetic operators only applies to number types, '%s' was found instead." % (type_before))
+        if operator in {'++','--'}:
+            if type_before == 'int':
+                return (True, "")
+            else:
+                return (False, "The '%s' operator only apply to integers, '%s' was found instead." % (operator,type_before))
+        type_after  = self.get_type(line,index, 1)
+        if type_after not in {'int','float'}:
+            return (False, "Arithmetic operators only applies to number types, '%s' was found instead." % (type_after))
+        if type_before != type_after:
+            return (False, "The '%s' %s '%s' arithmetic operation is not allowed" % (type_before,operator,type_after))
+        if operator is '/' and type_before is not 'int':
+            return (False, "Integer division operator '/' applied to '%s' was found" % (type_before))
+        if operator is '#' and type_before is not 'float':
+            return (False, "Float division operator '#' applied to '%s' was found" % (type_before))
+        return (True, "")
         
     # TODO: Checa os tipos envolvidos com operadores relacionais.
     
     def op_rel_check(self,line,index):
-        return (True, 'op_rel in position %d' % index)
+        return (False, 'op_rel in position %d' % index)
         
     # TODO: Checa os tipos envolvidos com operadores lógicos.
     
     def op_logic_check(self,line,index):
-        return (True, 'op_logic in position %d' % index)
+        return (False, 'op_logic in position %d' % index)
         
     # TODO: Tratar casos de retorno de funções
     # TODO: Tratar casos com declarações de constantes
     
-    # Determina se um 'string' represnta um 'float'.
+    # Determina se um 'string' representa um 'float'.
     
     def is_float(self,number):
         try:
@@ -134,7 +153,7 @@ class VerifTipos(object):
             return False
         return True
 
-    # Determina se um 'string' represnta um 'int'.
+    # Determina se um 'string' representa um 'int'.
     
     def is_int(self,number):
         try:
