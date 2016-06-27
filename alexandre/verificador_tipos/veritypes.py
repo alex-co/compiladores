@@ -16,7 +16,7 @@ class VerifTipos(object):
 
         self.__symbols_list__ = symbols_list
         self.clean_symbols_list()
-        self.__types_list__  = [['int'],['char'],['float'],['string'],['const'],['return']]
+        self.__types_list__  = [['int'],['char'],['float'],['string'],['const']]
         self.__types_hash__  = {}
         self.build_type_tables()
         self.__matching__    = self.parse_lines()
@@ -33,9 +33,17 @@ class VerifTipos(object):
                 if symbol_id   == '': symbol_id   = ' '
                 if symbol_attr == '': symbol_attr = ' '
                 self.__symbols_list__[i][j] = ','.join([symbol_id,symbol_attr])
-
-    # TODO: Identificar os escopos das funções.
-    #       OK -> Criar lista de tipos para {global,main, func1, ... ,func_n}
+                
+    def get_symbol_from_list(self,lin,col,offset):
+        symbol = self.__symbols_list__[lin][col+offset]
+        symbol_id    = symbol.split(',')[0]
+        symbol_attr  = symbol.split(',')[1]
+        return (symbol_id,symbol_attr)
+        
+    def insert_symbol_in_list(self,the_list,symbol,symbol_type):
+        for line in the_list:
+            if symbol_type in line[0]:
+                line.append(symbol)
 
     # Preenche tabela de tipos com todas a variáveis declaradas
     def build_type_tables(self):
@@ -43,51 +51,59 @@ class VerifTipos(object):
         self.__types_hash__['global'] = copy.deepcopy(self.__types_list__)
         typeset = self.__types_hash__['global']
 
-        #pilha = []
         wait_next_symbol = False
-        #wait_func_init  = False
+        skip_steps = 0
 
         for i in range(0,len(self.__symbols_list__)):
-            prev_symbol = ''
             for j in range(1,len(self.__symbols_list__[i])):
-                symbol = self.__symbols_list__[i][j]
-                symbol_id    = symbol.split(',')[0]
-                symbol_attr  = symbol.split(',')[1]
+                
+                if skip_steps > 0:
+                    skip_steps -= 1;
+                    break
+
+                symbol_id   = self.get_symbol_from_list(i,j,0)[0]
+                symbol_attr = self.get_symbol_from_list(i,j,0)[1]
 
                 # escopo da 'main'
                 if symbol_attr == 'main' and symbol_id == 'reserved':
                     self.__types_hash__['main'] = copy.deepcopy(self.__types_list__)
                     typeset = self.__types_hash__['main']
-                    #wait_func_init  = True
                     continue
 
                 # escopo de funções
                 if symbol_attr == 'id' and self.__symbols_list__[i][j+1].split(',')[1] == '(':
                     self.__types_hash__[symbol_id] = copy.deepcopy(self.__types_list__)
+                    self.__types_hash__[symbol_id].append(['return'])
                     typeset = self.__types_hash__[symbol_id]
-                    #wait_func_init  = True
-                    #continue
 
                 # declarações das variáveis
-                if wait_next_symbol:
-                    for lin in typeset[:-3]:
-                        if current_type in lin[0]:
-                            lin.append(symbol_id)
-                    current_type    = ''
-                    wait_next_symbol = False
+                if symbol_id == 'type':
+                    nxt1_symbol = self.get_symbol_from_list(i,j,1)
+                    if nxt1_symbol[1] == 'id':
+                        self.insert_symbol_in_list(typeset,nxt1_symbol[0],symbol_attr)
+                    
+                if symbol_id == 'reserved':
+                    
+                    if symbol_attr == 'const':
+                        nxt1_symbol = self.get_symbol_from_list(i,j,1)
+                        nxt2_symbol = self.get_symbol_from_list(i,j,2)
+                        if nxt1_symbol[0] == 'type' and nxt2_symbol[1] == 'id':
+                            self.insert_symbol_in_list(typeset,nxt2_symbol[0],'const')
+                    
+                    if symbol_attr == 'return':
+                        nxt1_symbol = self.get_symbol_from_list(i,j,1)
+                        if nxt1_symbol[1] == 'id':
+                            self.insert_symbol_in_list(typeset,nxt1_symbol[0],'return')
 
-                if symbol_id == 'type' and symbol_attr != 'const':
-                    current_type    = symbol_attr
-                    wait_next_symbol = True
-
-        for item in self.__types_hash__:
-            print "%s => %s" % (item, self.__types_hash__[item])
+        # Imprime lista de variáveis por escopo
+        #for item in self.__types_hash__:
+        #    print "%s => %s" % (item, self.__types_hash__[item])
 
     # Procura por símbolos que sugerem uma checagem de tipos
     # e encaminha para checagem no método apropriado.
     def parse_lines(self):
 
-        test_result = (True)
+        test_result = (True, "")
 
         for line in self.__symbols_list__:
             line_n = int(line[0]) + 1
@@ -129,7 +145,6 @@ class VerifTipos(object):
             for type_line in self.__types_list__:
                 if symbol_id in type_line:
                     return type_line[0]
-
         return 'unknown'
 
     # Checa os tipos envolvidos em uma atribuição.

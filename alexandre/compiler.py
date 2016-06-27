@@ -39,7 +39,7 @@ def import_gram(gfile):
 
 
 
-def tokens_by_line(tokens_list, token_ln):
+def symbols_by_line(tokens_list, token_ln):
 
     token  = token_ln[0].get('token')
     line_n = str(token_ln[1] + 1)
@@ -75,7 +75,7 @@ def main(argv):
     lines        = list()
 
     # para uso do verificador de tipos
-    tokens_list = list()
+    symbols_list = list()
 
     runaway   = True
     separator = "---------------------------------------------------------"
@@ -104,9 +104,9 @@ def main(argv):
                     dest.write(token.get('token') + '\n')
                     tokens.append(token_attr)
                     lines.append(line)
-                    # Monta uma tabela com os tokens contidos nas linhas
+                    # Monta uma tabela com os símbolos contidos nas linhas
                     # do código fonte para o verificador de tipos.
-                    tokens_by_line(tokens_list, token_line)
+                    symbols_by_line(symbols_list, token_line)
 
                 if token.has_key('eof'):
                     print "  %d lines scanned, everything is fine so far..." % (token.get('eof'))
@@ -120,20 +120,20 @@ def main(argv):
 #=======================================================================
 # Analisador Sintático
 
-    print "%s\n%s" % (separator, separator)
-    print "Syntactic analysis status:"
+#    print "%s\n%s" % (separator, separator)
+#    print "Syntactic analysis status:"
 
-    grammar = Gramatica(producoes, producoes[0][0])
-    slr     = Slr(grammar)
-    result  = slr.parse(tokens)
+#    grammar = Gramatica(producoes, producoes[0][0])
+#    slr     = Slr(grammar)
+#    result  = slr.parse(tokens)
 
-    if result.get('result'):
-        print '  No syntactic errors found, everything remains fine.'
-    else:
-        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
-        print "  Type checking analysis aborted..."
-        print "%s\n%s" % (separator, separator)
-        sys.exit()
+#    if result.get('result'):
+#        print '  No syntactic errors found, everything remains fine.'
+#    else:
+#        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
+#        print "  Type checking analysis aborted..."
+#        print "%s\n%s" % (separator, separator)
+#        sys.exit()
 
 
 #=======================================================================
@@ -143,7 +143,7 @@ def main(argv):
     print "%s\n%s" % (separator, separator)
     print "Type checking analysis status:"
 
-    vt = VerifTipos(tokens_list);
+    vt = VerifTipos(symbols_list);
 
     print vt.matching_result()
     print "%s\n%s" % (separator, separator)

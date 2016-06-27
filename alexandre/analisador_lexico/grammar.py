@@ -3,8 +3,8 @@
 DELIMITER  = [' ', '\t', '\n', '(', ')', '{', '}', ';']
 
 SPEC_CHAR  = ['{', '}', '[', ']', '(', ')', ';']
-DATA_TYPE  = ['int', 'char', 'float', 'const', 'string']
-RESERVED   = ['for', 'while', 'if', 'else', 'main', 'return']
+DATA_TYPE  = ['int', 'char', 'float', 'string']
+RESERVED   = ['for', 'while', 'if', 'else', 'main', 'const', 'return']
 
 ARIT_OP    = ['+', '++', '-', '--', '*', '/', '#', '%']
 REL_OP     = ['>', '<', '>=', '<=', '==', '!=']
