@@ -54,12 +54,17 @@ main {
 
     /* Operador aritmético em um tipo não numérico */
     /* m = n * o; */
+    k = 3 * 12;
+    k = 10 / j;
+    k = 9 % 3;
 
     /* Operador de ponto flutuante aplicado a inteiro */
     /* i = j # k; */
+    g = h # 3.14;
 
     /* Operador de inteiro aplicado a ponto flutuante */
     /* g = h / 1.18; */
+    i = j / k;
 
     /* Incremento aplicado a ponto flutuante */
     /* g++; */
