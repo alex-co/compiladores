@@ -6,14 +6,14 @@ string stringv;
 int    iglobal;
 
 /* const int UM = 1; */
-
+/*
 int functionc() {
     int d;
     d = 2;
     d = d + 3;
     return d;
 }
-
+*/
 main {
 /* === Testes para atribuições: === */
     /* TESTE: atribuição para constante */
