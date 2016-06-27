@@ -56,7 +56,7 @@ main {
     /* m = n * o; */
     k = 3 * 12;
     k = 10 / j;
-    k = 9 % 3;
+    /* k = 9 % 3; => ERRO no analisador sintático <= */
 
     /* Operador de ponto flutuante aplicado a inteiro */
     /* i = j # k; */
@@ -81,6 +81,11 @@ main {
 
     for( i = 0; i <= j; i++ ) {
 	    k = j - i;
+	}
+
+	i = 12;
+	while( i > 0 ) {
+        i--;
 	}
 
 /* ********************************* */
