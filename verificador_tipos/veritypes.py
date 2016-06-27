@@ -3,15 +3,18 @@
 
 import sys
 
+    # TODO: Tratar casos de retorno de funções
+    # TODO: Tratar casos com declarações de constantes
+
 #-----------------------------------------------------------------------
 
 class VerifTipos(object):
-    
+
     # Todo o procedimento de checagem de tipos é feita
     # na instanciação da classe VerifTipos.
 
     def __init__(self, tokens_list):
-        
+
         self.__tokens_list__ = tokens_list
         self.__types_list__  = [['int'],['char'],['float'],['string']]
         self.build_types_table()
@@ -21,7 +24,7 @@ class VerifTipos(object):
     # destino: self.__types_list__
 
     def build_types_table(self):
-        
+
         wait_next_token = False
         for line in self.__tokens_list__:
             for token in line[1:]:
@@ -34,21 +37,21 @@ class VerifTipos(object):
                             lin.append(token_id)
                     current_type    = ''
                     wait_next_token = False
-                
+
                 if token_id == 'type' and token_attr != 'const':
                     current_type    = token_attr
                     wait_next_token = True
 
     # Procura por tokens que sugerem uma checagem de tipos
     # e encaminha para checagem no método apropriado.
-    
+
     def parse_lines(self):
-        
+
         test_result = (True)
-        
+
         for line in self.__tokens_list__:
             line_n = int(line[0]) + 1
-            
+
             for i, token in enumerate(line[1:]):
                 token = token[1:-1]
                 if   'attr'in token:
@@ -61,7 +64,7 @@ class VerifTipos(object):
                     test_result = self.op_logic_check(line,i+1)
                 else:
                     continue
-                    
+
                 if not test_result[0]:
                     return '  Type mismatch at line %s: \n  %s' % (line_n, test_result[1])
 
@@ -69,12 +72,12 @@ class VerifTipos(object):
 
     # Restorna o tipo de um determinado 'id' da tabela de tipos
     # ou checa o tipo de um número ou o tipo de uma constante.
-    
+
     def get_type(self,line,index,pos):
 
         token_id   = line[index+pos].split(';')[0][1:]
         token_attr = line[index+pos].split(';', 1)[1][:-1]
-        
+
         if token_attr == 'num':
             if self.is_int(token_id):
                 return 'int'
@@ -88,13 +91,13 @@ class VerifTipos(object):
             for type_line in self.__types_list__:
                 if token_id in type_line:
                     return type_line[0]
-        
+
         return 'unknown'
 
     # Checa os tipos envolvidos em uma atribuição.
-    
+
     def attr_check(self,line,index):
-        
+
         type_before = self.get_type(line,index,-1)
         token_attr  = line[index-1].split(';', 1)[1][:-1]
         if token_attr != 'id':
@@ -106,11 +109,11 @@ class VerifTipos(object):
         if type_before != type_after:
             return (False, "'%s' to '%s' assignments are not allowed" % (type_after, type_before))
         return (True, "")
-        
+
     # Checa os tipos envolvidos em uma operação aritmética.
-    
+
     def op_arit_check(self,line,index):
-        
+
         operator    = line[index].split(';')[1][:-1]
         type_before = self.get_type(line,index,-1)
         if type_before not in {'int','float'}:
@@ -130,22 +133,30 @@ class VerifTipos(object):
         if operator is '#' and type_before is not 'float':
             return (False, "Float division operator '#' applied to '%s' was found" % (type_before))
         return (True, "")
-        
-    # TODO: Checa os tipos envolvidos com operadores relacionais.
-    
+
+    # Checa os tipos envolvidos com operadores relacionais.
+
     def op_rel_check(self,line,index):
-        return (False, 'op_rel in position %d' % index)
-        
-    # TODO: Checa os tipos envolvidos com operadores lógicos.
-    
+
+        operator    = line[index].split(';')[1][:-1]
+        type_before = self.get_type(line,index,-1)
+        type_after  = self.get_type(line,index, 1)
+        if type_before != type_after:
+            return (False, "Found '%s' %s '%s' : operands have different types." % (type_before,operator,type_after))
+        return (True, "")
+
+    # Checa os tipos envolvidos com operadores lógicos.
+
     def op_logic_check(self,line,index):
-        return (False, 'op_logic in position %d' % index)
-        
-    # TODO: Tratar casos de retorno de funções
-    # TODO: Tratar casos com declarações de constantes
-    
+        operator    = line[index].split(';')[1][:-1]
+        type_before = self.get_type(line,index,-1)
+        type_after  = self.get_type(line,index, 1)
+        if type_before != type_after:
+            return (False, "Found '%s' %s '%s' : operands have different types." % (type_before,operator,type_after))
+        return (True, "")
+
     # Determina se um 'string' representa um 'float'.
-    
+
     def is_float(self,number):
         try:
             num = float(number)
@@ -154,7 +165,7 @@ class VerifTipos(object):
         return True
 
     # Determina se um 'string' representa um 'int'.
-    
+
     def is_int(self,number):
         try:
             num = int(number)
@@ -163,8 +174,8 @@ class VerifTipos(object):
         return True
 
     # Getter do resultado da verificação de tipos.
-    
+
     def matching_result(self):
         return self.__matching__
-        
-#-----------------------------------------------------------------------        
+
+#-----------------------------------------------------------------------

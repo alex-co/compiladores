@@ -1,5 +1,5 @@
 
-/* 
+/*
 const int UM = 1
 */
 
@@ -14,15 +14,15 @@ int functionc() {
 main {
 
 /* === Testes para atribuições: === */
-  
+
     /* TESTE: atribuição para constante */
     /* "abc" = 3; */
-    
+
     /* TESTE: 'y' não foi declarado */
-    /* 
+    /*
     y = 12;
     */
-    
+
     /* TESTE: Atribuição de tipos diferentes */
     /*
     int   e;
@@ -41,38 +41,42 @@ main {
     int i;
     int j;
     int k;
-    
+
     char c;
     char d;
-    
+
     float g;
     float h;
-    
+
     string m;
     string n;
     string o;
-    
+
     /* Operador aritmético em um tipo não numérico */
     /* m = n * o; */
-    
+
     /* Operador de ponto flutuante aplicado a inteiro */
     /* i = j # k; */
-    
+
     /* Operador de inteiro aplicado a ponto flutuante */
     /* g = h / 1.18; */
 
     /* Incremento aplicado a ponto flutuante */
     /* g++; */
-    
+
     /* Decremento aplicado a string */
-    /* m--; */ 
-    
-    
-    i = 1;
-    i++;
-    j = 2;
-    j--;
+    /* m--; */
+
+    j = 2; j--;
     k = i + j;
+
+    if( i >= 3 && j < 10 ) {
+        k = j + 1;
+    }
+
+    for( i = 0; i <= j; i++ ) {
+	    k = j - i;
+	}
 
 /* ********************************* */
 
