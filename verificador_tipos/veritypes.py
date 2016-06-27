@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
+import sys, copy
 
     # TODO: Tratar casos de retorno de funções
     # TODO: Tratar casos com declarações de constantes
@@ -16,20 +16,12 @@ class VerifTipos(object):
 
         self.__tokens_list__ = tokens_list
         self.clean_tokens_list()
-#        for line in self.__tokens_list__:
-#            print line
-#        sys.exit()
+        self.__types_list__  = [['int'],['char'],['float'],['string'],['const'],['return'],['limits']]
+        self.__types_hash__  = {}
+        self.build_type_tables()
+        self.__matching__    = self.parse_lines()
 
-        self.__types_list__  = [['int'],['char'],['float'],['string']]
-
-        self.__glob_types_list__ = [['global'], ['int'],['char'],['float'],['string']]
-        self.__main_types_list__ = [['main'],   ['int'],['char'],['float'],['string']]
-        self.__func_types_list__ = [['func_id'],['int'],['char'],['float'],['string']]
-
-        self.build_types_table()
-        self.__matching__ = self.parse_lines()
-
-    # Remove caracteres {<,>}, atributos vazios por ' ' e separador por ','
+    # Remove caracteres {<,>}, campos vazios por ' ' e separador por ','
     def clean_tokens_list(self):
 
         for i in range(0,len(self.__tokens_list__)):
@@ -42,27 +34,43 @@ class VerifTipos(object):
                 if token_attr == '': token_attr = ' '
                 self.__tokens_list__[i][j] = ','.join([token_id,token_attr])
 
-    # TODO: Aqui: identificar os escopos das funções.
-    #       Criar lista de tipos para {globais,main, func1, ... ,func_n}
+    # TODO: Identificar os escopos das funções.
+    #       OK -> Criar lista de tipos para {global,main, func1, ... ,func_n}
 
     # Preenche tabela de tipos com todas a variáveis declaradas
-    def build_types_table(self):
+    def build_type_tables(self):
 
-#        current_id_name = ''
-#        current_id_ctrl = ''
-#        current_id_list = [['global'], ['int'],['char'],['float'],['string']]
+        self.__types_hash__['global'] = copy.deepcopy(self.__types_list__)
+        typeset = self.__types_hash__['global']
+
+        #pilha = []
         wait_next_token = False
+        #wait_func_init  = False
 
-        for line in self.__tokens_list__:
-            for token in line[1:]:
-                token_id   = token.split(',')[0]
-                token_attr = token.split(',')[1]
+        for i in range(0,len(self.__tokens_list__)):
+            prev_simbol = ''
+            for j in range(1,len(self.__tokens_list__[i])):
+                token = self.__tokens_list__[i][j]
+                token_id    = token.split(',')[0]
+                token_attr  = token.split(',')[1]
 
-                if token_id == 'reserved' and token_attr == 'main':
-                    print 'main at line: %s' % line[0]
+                # escopo da 'main'
+                if token_attr == 'main' and token_id == 'reserved':
+                    self.__types_hash__['main'] = copy.deepcopy(self.__types_list__)
+                    typeset = self.__types_hash__['main']
+                    #wait_func_init  = True
+                    continue
 
+                # escopo de funções
+                if token_attr == 'id' and self.__tokens_list__[i][j+1].split(',')[1] == '(':
+                    self.__types_hash__[token_id] = copy.deepcopy(self.__types_list__)
+                    typeset = self.__types_hash__[token_id]
+                    #wait_func_init  = True
+                    #continue
+
+                # declarações das variáveis
                 if wait_next_token:
-                    for lin in self.__types_list__:
+                    for lin in typeset[:-3]:
                         if current_type in lin[0]:
                             lin.append(token_id)
                     current_type    = ''
@@ -71,6 +79,9 @@ class VerifTipos(object):
                 if token_id == 'type' and token_attr != 'const':
                     current_type    = token_attr
                     wait_next_token = True
+
+        for item in self.__types_hash__:
+            print "%s => %s" % (item, self.__types_hash__[item])
 
     # Procura por tokens que sugerem uma checagem de tipos
     # e encaminha para checagem no método apropriado.

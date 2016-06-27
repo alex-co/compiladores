@@ -18,7 +18,7 @@ from veritypes import VerifTipos
 def import_gram(gfile):
 
     f = file(gfile)
-    conta = 0   
+    conta = 0
     prods = list()
 
     for linha in f:
@@ -34,13 +34,13 @@ def import_gram(gfile):
             raise Exception('Erro: %s:%d' % (arquivo, conta))
 
         prods.append((regra[0],(regra[2:])))
-    
+
     return prods
-    
+
 
 
 def tokens_by_line(tokens_list, token_ln):
-    
+
     token  = token_ln[0].get('token')
     line_n = str(token_ln[1] + 1)
 
@@ -73,10 +73,10 @@ def main(argv):
     symbol_table = list()
     tokens       = list()
     lines        = list()
-    
+
     # para uso do verificador de tipos
     tokens_list = list()
-    
+
     runaway   = True
     separator = "---------------------------------------------------------"
 
@@ -86,13 +86,13 @@ def main(argv):
     print "%s\n%s" % (separator, separator)
     print "Lexical analysis status:"
 
-    with open(source) as fp: 
+    with open(source) as fp:
 
         while True:
             token_line = automata.get_token(fp)
             token = token_line[0]
             line  = token_line[1]
-            
+
             if not token.has_key('comment'):
                 if token.has_key('error'):
                     print token.get('error')
@@ -116,24 +116,24 @@ def main(argv):
         print "%s\n%s" % (separator, separator)
         print "  Syntactic analysis aborted..."
         sys.exit()
-        
+
 #=======================================================================
 # Analisador Sintático
-    
-    print "%s\n%s" % (separator, separator)
-    print "Syntactic analysis status:"
 
-    grammar = Gramatica(producoes, producoes[0][0])
-    slr     = Slr(grammar)
-    result  = slr.parse(tokens)
+#    print "%s\n%s" % (separator, separator)
+#    print "Syntactic analysis status:"
 
-    if result.get('result'):
-        print '  No syntactic errors found, everything remains fine.'
-    else:
-        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
-        print "  Type checking analysis aborted..."
-        print "%s\n%s" % (separator, separator)
-        sys.exit()
+#    grammar = Gramatica(producoes, producoes[0][0])
+#    slr     = Slr(grammar)
+#    result  = slr.parse(tokens)
+
+#    if result.get('result'):
+#        print '  No syntactic errors found, everything remains fine.'
+#    else:
+#        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
+#        print "  Type checking analysis aborted..."
+#        print "%s\n%s" % (separator, separator)
+#        sys.exit()
 
 
 #=======================================================================
