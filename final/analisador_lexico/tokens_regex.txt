@@ -1,0 +1,25 @@
+
+	Alexandre Calerio de Oliveira
+	Felipe Lopes 
+
+	Definições Regulares dos Tokens
+
+
+	TOKEN					Expressão Regular
+
+	type					( (int) + (float) + (string) + (char) )		
+	reserved				( (for) + (while) + (if) + (else) + (main) + (return) )
+	id						( [a-z A-Z] ([0-9] + [a-z A-Z])* )
+	num						( [0-9]	(. + 0-9) [0-9]* )
+	op_arit					( (+) + (++) + (-) + (--) + (*) + (/) + (#) + (%) )
+	op_logic				( (||) + (&&) )
+	op_rel					( (>) + (<) + (>=) + (<=) + (==) + (!=) )
+	attr					( (=) )
+	spec_char				( ({) + (}) + ([) + (]) (() + ()) + (;) )
+	char_value				( (') [a-z A-Z] (') )
+	str_value				( (") [a-z A-Z] [a-z A-Z 0-9]* (") )
+
+
+	GERA ERRO				Expressão Regular
+	
+	error  					( (@) + ($) + (`) + (,) )

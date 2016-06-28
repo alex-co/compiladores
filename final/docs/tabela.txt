@@ -1,0 +1,755 @@
+0 : {
+    'const':    ('Reduz', DECL_VAR ->),
+    'string':   ('Empilha', 1),
+    'for':      ('Reduz', DECL_VAR ->),
+    'int':      ('Empilha', 3),
+    'float':    ('Empilha', 4),
+    'char':     ('Empilha', 5),
+    'while':    ('Reduz', DECL_VAR ->),
+    'TIPO':     ('Empilha', 2),
+    'PROG':     ('Empilha', 6),
+    'main':     ('Reduz', DECL_VAR ->),
+    'id':       ('Reduz', DECL_VAR ->),
+    'DECL_VAR': ('Empilha', 7),
+    'if':       ('Reduz', DECL_VAR ->)
+}
+
+1 :  {'id': ('Reduz', TIPO -> string)}
+
+2 :  {'id': ('Empilha', 8)}
+
+3 :  {'id': ('Reduz', TIPO -> int)}
+
+4 :  {'id': ('Reduz', TIPO -> float)}
+
+5 :  {'id': ('Reduz', TIPO -> char)}
+
+6 :  {'$': ('AC', '')}
+
+7 :  {
+     'const':  ('Empilha', 9),
+     'string': ('Reduz', CONST ->),
+     'int':    ('Reduz', CONST ->),
+     'float':  ('Reduz', CONST ->),
+     'char':   ('Reduz', CONST ->),
+     'CONST':  ('Empilha', 10),
+     'main':   ('Reduz', CONST ->)
+}
+
+8 :  {';': ('Empilha', 11)}
+
+9 :  {'id': ('Empilha', 12)}
+
+10 : {
+     'string':  ('Empilha', 1),
+     'TIPO':    ('Empilha', 13),
+     'int':     ('Empilha', 3),
+     'float':   ('Empilha', 4),
+     'FUNCAO':  ('Empilha', 14),
+     'char':    ('Empilha', 5),
+     'main':    ('Reduz', FUNCOES ->),
+     'FUNCOES': ('Empilha', 15)
+}
+
+11 : {
+     'const':    ('Reduz', DECL_VAR ->),
+     'string':   ('Empilha', 1),
+     'for':      ('Reduz', DECL_VAR ->),
+     'int':      ('Empilha', 3),
+     'float':    ('Empilha', 4),
+     'char':     ('Empilha', 5),
+     'while':    ('Reduz', DECL_VAR ->),
+     'TIPO':     ('Empilha', 2),
+     'main':     ('Reduz', DECL_VAR ->),
+     'id':       ('Reduz', DECL_VAR ->),
+     'DECL_VAR': ('Empilha', 16),
+     'if':       ('Reduz', DECL_VAR ->)
+}
+
+12 :  {'=': ('Empilha', 17)}
+
+13 :  {'id': ('Empilha', 18)}
+
+14 : {
+     'string':  ('Empilha', 1),
+     'TIPO':    ('Empilha', 13),
+     'int':     ('Empilha', 3),
+     'float':   ('Empilha', 4),
+     'FUNCAO':  ('Empilha', 14),
+     'char':    ('Empilha', 5),
+     'main':    ('Reduz', FUNCOES ->),
+     'FUNCOES': ('Empilha', 19)
+}
+
+15 : {
+     'main': ('Empilha', 20),
+     'MAIN': ('Empilha', 21)
+}
+
+16 : {
+     'const':  ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'string': ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'for':    ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'int':    ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'float':  ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'char':   ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'while':  ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'main':   ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'id':     ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR),
+     'if':     ('Reduz', DECL_VAR -> TIPO id ; DECL_VAR)
+}
+
+17 : {'num': ('Empilha', 22)}
+
+18 : {'(': ('Empilha', 23)}
+
+19 : {'main': ('Reduz', FUNCOES -> FUNCAO FUNCOES)}
+
+20 : {'{': ('Empilha', 24)}
+
+21 : {'$': ('Reduz', PROG -> DECL_VAR CONST FUNCOES MAIN)}
+
+22 : {';': ('Empilha', 25)}
+
+23 : {')': ('Empilha', 26)}
+
+24 : {
+     'const':    ('Reduz', DECL_VAR ->),
+     'string':   ('Empilha', 1),
+     'for':      ('Reduz', DECL_VAR ->),
+     'int':      ('Empilha', 3),
+     'float':    ('Empilha', 4),
+     'char':     ('Empilha', 5),
+     'while':    ('Reduz', DECL_VAR ->),
+     'TIPO':     ('Empilha', 2),
+     'main':     ('Reduz', DECL_VAR ->),
+     'id':       ('Reduz', DECL_VAR ->),
+     'DECL_VAR': ('Empilha', 27),
+     'if':       ('Reduz', DECL_VAR ->)
+}
+
+25 : {
+     'const':  ('Empilha', 9),
+     'string': ('Reduz', CONST ->),
+     'int':    ('Reduz', CONST ->),
+     'float':  ('Reduz', CONST ->),
+     'char':   ('Reduz', CONST ->),
+     'CONST':  ('Empilha', 28),
+     'main':   ('Reduz', CONST ->)
+}
+
+26 : {'{': ('Empilha', 29)}
+
+27 : {
+     'INCR':    ('Empilha', 30),
+     'FOR':     ('Empilha', 31),
+     'for':     ('Empilha', 32),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 35),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+28 : {
+     'int':    ('Reduz', CONST -> const id = num ; CONST),
+     'char':   ('Reduz', CONST -> const id = num ; CONST),
+     'float':  ('Reduz', CONST -> const id = num ; CONST),
+     'main':   ('Reduz', CONST -> const id = num ; CONST),
+     'string': ('Reduz', CONST -> const id = num ; CONST)
+}
+
+29 : {
+     'const':    ('Reduz', DECL_VAR ->),
+     'string':   ('Empilha', 1),
+     'for':      ('Reduz', DECL_VAR ->),
+     'int':      ('Empilha', 3),
+     'float':    ('Empilha', 4),
+     'char':     ('Empilha', 5),
+     'while':    ('Reduz', DECL_VAR ->),
+     'TIPO':     ('Empilha', 2),
+     'main':     ('Reduz', DECL_VAR ->),
+     'id':       ('Reduz', DECL_VAR ->),
+     'DECL_VAR': ('Empilha', 42),
+     'if':       ('Reduz', DECL_VAR ->)
+}
+
+30 : {';': ('Empilha', 43)}
+
+31 : {
+     'return': ('Reduz', CMD -> FOR),
+     'for':    ('Reduz', CMD -> FOR),
+     'while':  ('Reduz', CMD -> FOR),
+     '}':      ('Reduz', CMD -> FOR),
+     'id':     ('Reduz', CMD -> FOR),
+     'if':     ('Reduz', CMD -> FOR)
+}
+
+32 : {'(': ('Empilha', 44)}
+
+33 : {
+     'INCR':    ('Empilha', 30),
+     'return':  ('Reduz', CMDS -> CMD),
+     'FOR':     ('Empilha', 31),
+     'for':     ('Empilha', 32),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 45),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     '}':       ('Reduz', CMDS -> CMD),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+34 : {'(': ('Empilha', 46)}
+
+35 : {'}': ('Empilha', 47)}
+
+36 : {
+     'return': ('Reduz', CMD -> CH_FUNC),
+     'for':    ('Reduz', CMD -> CH_FUNC),
+     'while':  ('Reduz', CMD -> CH_FUNC),
+     '}':      ('Reduz', CMD -> CH_FUNC),
+     'id':     ('Reduz', CMD -> CH_FUNC),
+     'if':     ('Reduz', CMD -> CH_FUNC)
+}
+
+37 : {
+     'return': ('Reduz', CMD -> WHILE),
+     'for':    ('Reduz', CMD -> WHILE),
+     'while':  ('Reduz', CMD -> WHILE),
+     '}':      ('Reduz', CMD -> WHILE),
+     'id':     ('Reduz', CMD -> WHILE),
+     'if':     ('Reduz', CMD -> WHILE)
+}
+
+38 : {
+     'return': ('Reduz', CMD -> ATR),
+     'for':    ('Reduz', CMD -> ATR),
+     'while':  ('Reduz', CMD -> ATR),
+     '}':      ('Reduz', CMD -> ATR),
+     'id':     ('Reduz', CMD -> ATR),
+     'if':     ('Reduz', CMD -> ATR)
+}
+
+39 : {
+     'return': ('Reduz', CMD -> IF),
+     'for':    ('Reduz', CMD -> IF),
+     'while':  ('Reduz', CMD -> IF),
+     '}':      ('Reduz', CMD -> IF),
+     'id':     ('Reduz', CMD -> IF),
+     'if':     ('Reduz', CMD -> IF)
+}
+
+40 : {
+     '--': ('Empilha', 48),
+     '++': ('Empilha', 49),
+     '=':  ('Empilha', 50),
+     '(':  ('Empilha', 51)
+}
+
+41 : {'(': ('Empilha', 52)}
+
+42 : {
+     'INCR':    ('Empilha', 30),
+     'for':     ('Empilha', 32),
+     'FOR':     ('Empilha', 31),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 53),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+43 : {
+     'return': ('Reduz', CMD -> INCR ;),
+     'for':    ('Reduz', CMD -> INCR ;),
+     'while':  ('Reduz', CMD -> INCR ;),
+     '}':      ('Reduz', CMD -> INCR ;),
+     'id':     ('Reduz', CMD -> INCR ;),
+     'if':     ('Reduz', CMD -> INCR ;)
+}
+
+44 : {
+     'ATR_FOR': ('Empilha', 54),
+     'id':      ('Empilha', 55)
+}
+
+45 : {
+     'return': ('Reduz', CMDS -> CMD CMDS),
+     '}':      ('Reduz', CMDS -> CMD CMDS)
+}
+
+46 : {
+     'num':      ('Empilha', 56),
+     'TESTE':    ('Empilha', 57),
+     'id':       ('Empilha', 58),
+     'EXPR_REL': ('Empilha', 59)
+}
+
+47 : {'$': ('Reduz', MAIN -> main { DECL_VAR CMDS })}
+
+48 : {
+     ')': ('Reduz', INCR -> id --),
+     ';': ('Reduz', INCR -> id --)
+}
+
+49 : {
+     ')': ('Reduz', INCR -> id ++),
+     ';': ('Reduz', INCR -> id ++)
+}
+
+50 : {
+     'ch':       ('Empilha', 60),
+     'string':   ('Empilha', 61),
+     'CH_FUNC':  ('Empilha', 62),
+     'num':      ('Empilha', 63),
+     'EXPR_MAT': ('Empilha', 64),
+     'id':       ('Empilha', 65)
+}
+
+51 : {')': ('Empilha', 66)}
+
+52 : {
+     'num':      ('Empilha', 56),
+     'TESTE':    ('Empilha', 67),
+     'EXPR_REL': ('Empilha', 59),
+     'id':       ('Empilha', 58)
+}
+
+53 : {'return': ('Empilha', 68)}
+
+54 : {';': ('Empilha', 69)}
+
+55 : {'=': ('Empilha', 70)}
+
+56 : {
+     '>=':     ('Empilha', 71),
+     '==':     ('Empilha', 72),
+     '<=':     ('Empilha', 73),
+     'OP_REL': ('Empilha', 74),
+     '!=':     ('Empilha', 75),
+     '<':      ('Empilha', 76),
+     '>':      ('Empilha', 77)
+}
+
+57 : {')': ('Empilha', 78)}
+
+58 : {
+     '>=':     ('Empilha', 71),
+     '==':     ('Empilha', 72),
+     '<=':     ('Empilha', 73),
+     'OP_REL': ('Empilha', 79),
+     '!=':     ('Empilha', 75),
+     '<':      ('Empilha', 76),
+     '>':      ('Empilha', 77)
+}
+
+59 : {
+     ')':      ('Reduz', TESTE -> EXPR_REL),
+     'OP_LOG': ('Empilha', 80),
+     ';':      ('Reduz', TESTE -> EXPR_REL),
+     '||':     ('Empilha', 81),
+     '&&':     ('Empilha', 82)
+}
+
+60 : {';': ('Empilha', 83)}
+
+61 : {';': ('Empilha', 84)}
+
+62 : {';': ('Empilha', 85)}
+
+63 : {
+     '#':       ('Empilha', 86),
+     '%':       ('Empilha', 87),
+     '+':       ('Empilha', 88),
+     '*':       ('Empilha', 89),
+     '-':       ('Empilha', 90),
+     '/':       ('Empilha', 91),
+     'OP_ARIT': ('Empilha', 92),
+     ';':       ('Empilha', 93)
+}
+
+64 : {';': ('Empilha', 94)}
+
+65 : {
+     '#':       ('Empilha', 86),
+     '%':       ('Empilha', 87),
+     '(':       ('Empilha', 51),
+     '+':       ('Empilha', 88),
+     '*':       ('Empilha', 89),
+     '-':       ('Empilha', 90),
+     '/':       ('Empilha', 91),
+     'OP_ARIT': ('Empilha', 95),
+     ';':       ('Empilha', 96)
+}
+
+66 : {';': ('Empilha', 97)}
+
+67 : {')': ('Empilha', 98)}
+
+68 : {'id': ('Empilha', 99)}
+
+69 : {
+     'num':      ('Empilha', 56),
+     'TESTE':    ('Empilha', 100),
+     'id':       ('Empilha', 58),
+     'EXPR_REL': ('Empilha', 59)
+}
+
+70 : {'num': ('Empilha', 101)}
+
+71 : {
+     'num': ('Reduz', OP_REL -> >=),
+     'id':  ('Reduz', OP_REL -> >=)
+}
+
+72 : {
+     'num': ('Reduz', OP_REL -> ==),
+     'id':  ('Reduz', OP_REL -> ==)
+}
+
+73 : {
+     'num': ('Reduz', OP_REL -> <=),
+     'id':  ('Reduz', OP_REL -> <=)
+}
+
+74 : {
+     'num': ('Empilha', 102),
+     'id':  ('Empilha', 103)
+}
+
+75 : {
+     'num': ('Reduz', OP_REL -> !=),
+     'id':  ('Reduz', OP_REL -> !=)
+}
+
+76 : {
+     'num': ('Reduz', OP_REL -> <),
+     'id':  ('Reduz', OP_REL -> <)
+}
+
+77 : {
+     'num': ('Reduz', OP_REL -> >),
+     'id':  ('Reduz', OP_REL -> >)
+}
+
+78 : {'{': ('Empilha', 104)}
+
+79 : {
+     'num': ('Empilha', 105),
+     'id':  ('Empilha', 106)
+}
+
+80 : {
+     'num':      ('Empilha', 56),
+     'TESTE':    ('Empilha', 107),
+     'id':       ('Empilha', 58),
+     'EXPR_REL': ('Empilha', 59)
+}
+
+81 : {
+     'num': ('Reduz', OP_LOG -> ||),
+     'id':  ('Reduz', OP_LOG -> ||)
+}
+
+82 : {
+     'num': ('Reduz', OP_LOG -> &&),
+     'id':  ('Reduz', OP_LOG -> &&)
+}
+
+83 : {
+     'return': ('Reduz', ATR -> id = ch ;),
+     'for':    ('Reduz', ATR -> id = ch ;),
+     'while':  ('Reduz', ATR -> id = ch ;),
+     '}':      ('Reduz', ATR -> id = ch ;),
+     'id':     ('Reduz', ATR -> id = ch ;),
+     'if':     ('Reduz', ATR -> id = ch ;)
+}
+
+84 : {
+     'return': ('Reduz', ATR -> id = string ;),
+     'for':    ('Reduz', ATR -> id = string ;),
+     'while':  ('Reduz', ATR -> id = string ;),
+     '}':      ('Reduz', ATR -> id = string ;),
+     'id':     ('Reduz', ATR -> id = string ;),
+     'if':     ('Reduz', ATR -> id = string ;)
+}
+
+85 : {
+     'return': ('Reduz', ATR -> id = CH_FUNC ;),
+     'for':    ('Reduz', ATR -> id = CH_FUNC ;),
+     'while':  ('Reduz', ATR -> id = CH_FUNC ;),
+     '}':      ('Reduz', ATR -> id = CH_FUNC ;),
+     'id':     ('Reduz', ATR -> id = CH_FUNC ;),
+     'if':     ('Reduz', ATR -> id = CH_FUNC ;)
+}
+
+86 : {
+     'num': ('Reduz', OP_ARIT -> #),
+     'id':  ('Reduz', OP_ARIT -> #)
+}
+
+87 : {
+     'num': ('Reduz', OP_ARIT -> %),
+     'id':  ('Reduz', OP_ARIT -> %)
+}
+
+88 : {
+     'num': ('Reduz', OP_ARIT -> +),
+     'id':  ('Reduz', OP_ARIT -> +)
+}
+
+89 : {
+     'num': ('Reduz', OP_ARIT -> *),
+     'id':  ('Reduz', OP_ARIT -> *)
+}
+
+90 : {
+     'num': ('Reduz', OP_ARIT -> -),
+     'id':  ('Reduz', OP_ARIT -> -)
+}
+
+91 : {
+     'num': ('Reduz', OP_ARIT -> /),
+     'id':  ('Reduz', OP_ARIT -> /)
+}
+
+92 : {
+     'num': ('Empilha', 108),
+     'id':  ('Empilha', 109)
+}
+
+93 : {
+     'return': ('Reduz', ATR -> id = num ;),
+     'for':    ('Reduz', ATR -> id = num ;),
+     'while':  ('Reduz', ATR -> id = num ;),
+     '}':      ('Reduz', ATR -> id = num ;),
+     'id':     ('Reduz', ATR -> id = num ;),
+     'if':     ('Reduz', ATR -> id = num ;)
+}
+
+94 : {
+     'return': ('Reduz', ATR -> id = EXPR_MAT ;),
+     'for':    ('Reduz', ATR -> id = EXPR_MAT ;),
+     'while':  ('Reduz', ATR -> id = EXPR_MAT ;),
+     '}':      ('Reduz', ATR -> id = EXPR_MAT ;),
+     'id':     ('Reduz', ATR -> id = EXPR_MAT ;),
+     'if':     ('Reduz', ATR -> id = EXPR_MAT ;)
+}
+
+95 : {
+     'num': ('Empilha', 110),
+     'id':  ('Empilha', 111)
+}
+
+96 : {
+     'return': ('Reduz', ATR -> id = id ;),
+     'for':    ('Reduz', ATR -> id = id ;),
+     'while':  ('Reduz', ATR -> id = id ;),
+     '}':      ('Reduz', ATR -> id = id ;),
+     'id':     ('Reduz', ATR -> id = id ;),
+     'if':     ('Reduz', ATR -> id = id ;)
+}
+
+97 : {
+     'return': ('Reduz', CH_FUNC -> id ( ) ;),
+     'for':    ('Reduz', CH_FUNC -> id ( ) ;),
+     'while':  ('Reduz', CH_FUNC -> id ( ) ;),
+     ';':      ('Reduz', CH_FUNC -> id ( ) ;),
+     '}':      ('Reduz', CH_FUNC -> id ( ) ;),
+     'id':     ('Reduz', CH_FUNC -> id ( ) ;),
+     'if':     ('Reduz', CH_FUNC -> id ( ) ;)
+}
+
+98 : {'{': ('Empilha', 112)}
+
+99 : {';': ('Empilha', 113)}
+
+100 :{';': ('Empilha', 114)}
+
+101 :{';': ('Reduz', ATR_FOR -> id = num)}
+
+102 :{
+     ')':  ('Reduz', EXPR_REL -> num OP_REL num),
+     ';':  ('Reduz', EXPR_REL -> num OP_REL num),
+     '||': ('Reduz', EXPR_REL -> num OP_REL num),
+     '&&': ('Reduz', EXPR_REL -> num OP_REL num)
+}
+
+103 :{
+     ')':  ('Reduz', EXPR_REL -> num OP_REL id),
+     ';':  ('Reduz', EXPR_REL -> num OP_REL id),
+     '||': ('Reduz', EXPR_REL -> num OP_REL id),
+     '&&': ('Reduz', EXPR_REL -> num OP_REL id)
+}
+
+104 :{
+     'INCR':    ('Empilha', 30),
+     'for':     ('Empilha', 32),
+     'FOR':     ('Empilha', 31),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 115),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+105 :{
+     ')':  ('Reduz', EXPR_REL -> id OP_REL num),
+     ';':  ('Reduz', EXPR_REL -> id OP_REL num),
+     '||': ('Reduz', EXPR_REL -> id OP_REL num),
+     '&&': ('Reduz', EXPR_REL -> id OP_REL num)
+}
+
+106 :{
+     ')':  ('Reduz', EXPR_REL -> id OP_REL id),
+     ';':  ('Reduz', EXPR_REL -> id OP_REL id),
+     '||': ('Reduz', EXPR_REL -> id OP_REL id),
+     '&&': ('Reduz', EXPR_REL -> id OP_REL id)
+}
+
+107 :{
+     ')': ('Reduz', TESTE -> EXPR_REL OP_LOG TESTE),
+     ';': ('Reduz', TESTE -> EXPR_REL OP_LOG TESTE)
+}
+
+108 :{';': ('Reduz', EXPR_MAT -> num OP_ARIT num)}
+
+109 :{';': ('Reduz', EXPR_MAT -> num OP_ARIT id)}
+
+110 :{';': ('Reduz', EXPR_MAT -> id OP_ARIT num)}
+
+111 :{';': ('Reduz', EXPR_MAT -> id OP_ARIT id)}
+
+112 :{
+     'INCR':    ('Empilha', 30),
+     'FOR':     ('Empilha', 31),
+     'for':     ('Empilha', 32),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 116),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+113 :{'}': ('Empilha', 117)}
+
+114 :{
+     'INCR': ('Empilha', 118),
+     'id':   ('Empilha', 119)
+}
+
+115 :{'}': ('Empilha', 120)}
+
+116 :{'}': ('Empilha', 121)}
+
+117 :{
+     'int':    ('Reduz', FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; }),
+     'char':   ('Reduz', FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; }),
+     'float':  ('Reduz', FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; }),
+     'main':   ('Reduz', FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; }),
+     'string': ('Reduz', FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; })
+}
+
+118 :{')': ('Empilha', 122)}
+
+119 :{
+     '--': ('Empilha', 48),
+     '++': ('Empilha', 49)
+}
+
+120 :{
+     'return': ('Reduz', WHILE -> while ( TESTE ) { CMDS }),
+     'for':    ('Reduz', WHILE -> while ( TESTE ) { CMDS }),
+     'while':  ('Reduz', WHILE -> while ( TESTE ) { CMDS }),
+     '}':      ('Reduz', WHILE -> while ( TESTE ) { CMDS }),
+     'id':     ('Reduz', WHILE -> while ( TESTE ) { CMDS }),
+     'if':     ('Reduz', WHILE -> while ( TESTE ) { CMDS })
+}
+
+121 :{
+     'return': ('Reduz', IF -> if ( TESTE ) { CMDS }),
+     'for':    ('Reduz', IF -> if ( TESTE ) { CMDS }),
+     'else':   ('Empilha', 123),
+     'while':  ('Reduz', IF -> if ( TESTE ) { CMDS }),
+     '}':      ('Reduz', IF -> if ( TESTE ) { CMDS }),
+     'id':     ('Reduz', IF -> if ( TESTE ) { CMDS }),
+     'if':     ('Reduz', IF -> if ( TESTE ) { CMDS })
+}
+
+122 :{'{': ('Empilha', 124)}
+
+123 :{'{': ('Empilha', 125)}
+
+124 :{
+     'INCR':    ('Empilha', 30),
+     'for':     ('Empilha', 32),
+     'FOR':     ('Empilha', 31),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 126),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+125 :{
+     'INCR':    ('Empilha', 30),
+     'FOR':     ('Empilha', 31),
+     'for':     ('Empilha', 32),
+     'CMD':     ('Empilha', 33),
+     'WHILE':   ('Empilha', 37),
+     'CMDS':    ('Empilha', 127),
+     'CH_FUNC': ('Empilha', 36),
+     'while':   ('Empilha', 34),
+     'ATR':     ('Empilha', 38),
+     'if':      ('Empilha', 41),
+     'id':      ('Empilha', 40),
+     'IF':      ('Empilha', 39)
+}
+
+126 :{'}': ('Empilha', 128)}
+
+127 :{'}': ('Empilha', 129)}
+
+128 :{
+     'return': ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }),
+     'for':    ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }),
+     'while':  ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }),
+     '}':      ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }),
+     'id':     ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }),
+     'if':     ('Reduz', FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS })
+}
+
+129 :{
+     'return': ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS }),
+     'for':    ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS }),
+     'while':  ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS }),
+     '}':      ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS }),
+     'id':     ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS }),
+     'if':     ('Reduz', IF -> if ( TESTE ) { CMDS } else { CMDS })
+}
+

@@ -1,0 +1,81 @@
+PROG      -> DECL_VAR CONST FUNCOES MAIN
+
+DECL_VAR  -> TIPO id ; DECL_VAR
+DECL_VAR  ->
+
+CONST     -> const TIPO id = num ; CONST
+CONST     ->
+
+FUNCOES   -> FUNCAO FUNCOES
+FUNCOES   ->
+
+FUNCAO    -> TIPO id ( ) { DECL_VAR CMDS return id ; }
+
+MAIN      -> main { DECL_VAR CMDS }
+
+TIPO      -> int
+TIPO      -> float
+TIPO      -> char
+TIPO      -> string
+
+CMDS      -> CMD CMDS
+CMDS      -> CMD
+
+CMD       -> IF
+CMD       -> WHILE
+CMD       -> FOR
+CMD       -> ATR
+CMD       -> INCR ;
+CMD       -> CH_FUNC
+
+IF        -> if ( TESTE ) { CMDS }
+IF        -> if ( TESTE ) { CMDS } else { CMDS }
+
+WHILE     -> while ( TESTE ) { CMDS }
+
+FOR       -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS }
+
+ATR       -> id = num ;
+ATR       -> id = EXPR_MAT ;
+ATR       -> id = ch ;
+ATR       -> id = string ;
+ATR       -> id = CH_FUNC ;
+ATR       -> id = id ;
+
+CH_FUNC   -> id ( ) ;
+
+INCR      -> id ++
+INCR      -> id --
+
+ATR_FOR   -> id = num
+
+EXPR_MAT  -> num OP_ARIT num
+EXPR_MAT  -> id OP_ARIT id
+EXPR_MAT  -> id OP_ARIT num
+EXPR_MAT  -> num OP_ARIT id
+
+TESTE     -> EXPR_REL
+TESTE     -> EXPR_REL OP_LOG TESTE
+
+EXPR_REL  -> id OP_REL id
+EXPR_REL  -> id OP_REL num
+EXPR_REL  -> num OP_REL id
+EXPR_REL  -> num OP_REL num
+
+OP_REL    -> ==
+OP_REL    -> >
+OP_REL    -> <
+OP_REL    -> >=
+OP_REL    -> <=
+OP_REL    -> !=
+
+OP_LOG    -> &&
+OP_LOG    -> ||
+
+OP_ARIT   -> +
+OP_ARIT   -> -
+OP_ARIT   -> *
+OP_ARIT   -> /
+OP_ARIT   -> #
+OP_ARIT   -> %
+

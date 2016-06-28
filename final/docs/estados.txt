@@ -1,0 +1,542 @@
+0:   PROG -> . DECL_VAR CONST FUNCOES MAIN 
+     DECL_VAR -> .
+     TIPO -> . int 
+     DECL_VAR -> . TIPO id ; DECL_VAR 
+     TIPO -> . string 
+     TIPO -> . char 
+     S -> . PROG $ 
+     TIPO -> . float 
+
+1:  TIPO -> string .
+
+2:  DECL_VAR -> TIPO . id ; DECL_VAR 
+
+3:  TIPO -> int .
+
+4:  TIPO -> float .
+
+5:  TIPO -> char .
+
+6:   S -> PROG . $ 
+
+7:   PROG -> DECL_VAR . CONST FUNCOES MAIN 
+     CONST -> . const id = num ; CONST 
+     CONST -> .
+
+8:   DECL_VAR -> TIPO id . ; DECL_VAR 
+
+9:   CONST -> const . id = num ; CONST 
+
+10:  FUNCAO -> . TIPO id ( ) { DECL_VAR CMDS return id ; } 
+     PROG -> DECL_VAR CONST . FUNCOES MAIN 
+     FUNCOES -> . FUNCAO FUNCOES 
+     FUNCOES -> .
+     TIPO -> . int 
+     TIPO -> . float 
+     TIPO -> . string 
+     TIPO -> . char 
+
+11:  DECL_VAR -> TIPO id ; . DECL_VAR 
+     TIPO -> . float 
+     TIPO -> . char 
+     TIPO -> . int 
+     TIPO -> . string 
+     DECL_VAR -> . TIPO id ; DECL_VAR 
+     DECL_VAR -> .
+
+12:  CONST -> const id . = num ; CONST 
+
+13:  FUNCAO -> TIPO . id ( ) { DECL_VAR CMDS return id ; } 
+
+14:  FUNCAO -> . TIPO id ( ) { DECL_VAR CMDS return id ; } 
+     FUNCOES -> FUNCAO . FUNCOES 
+     FUNCOES -> . FUNCAO FUNCOES 
+     FUNCOES -> .
+     TIPO -> . int 
+     TIPO -> . float 
+     TIPO -> . string 
+     TIPO -> . char 
+
+15:  PROG -> DECL_VAR CONST FUNCOES . MAIN 
+     MAIN -> . main { DECL_VAR CMDS } 
+
+16: DECL_VAR -> TIPO id ; DECL_VAR .
+
+17: CONST -> const id = . num ; CONST 
+
+18: FUNCAO -> TIPO id . ( ) { DECL_VAR CMDS return id ; } 
+
+19: FUNCOES -> FUNCAO FUNCOES .
+
+20:  MAIN -> main . { DECL_VAR CMDS } 
+
+21:  PROG -> DECL_VAR CONST FUNCOES MAIN .
+
+22:  CONST -> const id = num . ; CONST 
+
+23:  FUNCAO -> TIPO id ( . ) { DECL_VAR CMDS return id ; } 
+
+24:  DECL_VAR -> . TIPO id ; DECL_VAR 
+     TIPO -> . string 
+     TIPO -> . char 
+     TIPO -> . int 
+     MAIN -> main { . DECL_VAR CMDS } 
+     DECL_VAR -> .
+     TIPO -> . float 
+
+25:  CONST -> const id = num ; . CONST 
+     CONST -> . const id = num ; CONST 
+     CONST -> .
+
+26:  FUNCAO -> TIPO id ( ) . { DECL_VAR CMDS return id ; } 
+
+27:  ATR -> . id = num ; 
+     CMD -> . FOR 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     ATR -> . id = id ; 
+     CMD -> . CH_FUNC 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = string ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     ATR -> . id = ch ; 
+     CMDS -> . CMD CMDS 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     MAIN -> main { DECL_VAR . CMDS } 
+     CH_FUNC -> . id ( ) ; 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+
+28:  CONST -> const id = num ; CONST .
+
+29:  DECL_VAR -> . TIPO id ; DECL_VAR 
+     FUNCAO -> TIPO id ( ) { . DECL_VAR CMDS return id ; } 
+     TIPO -> . string 
+     TIPO -> . char 
+     TIPO -> . int 
+     DECL_VAR -> .
+     TIPO -> . float 
+
+30:  CMD -> INCR . ; 
+
+31:  CMD -> FOR .
+
+32:  FOR -> for . ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+
+33:  CH_FUNC -> . id ( ) ; 
+     CMDS -> . CMD CMDS 
+     ATR -> . id = string ; 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     CMDS -> CMD .
+     CMD -> . CH_FUNC 
+     ATR -> . id = num ; 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = id ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+     CMDS -> CMD . CMDS 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CMD -> . FOR 
+     ATR -> . id = ch ; 
+
+34:  WHILE -> while . ( TESTE ) { CMDS } 
+
+35:  MAIN -> main { DECL_VAR CMDS . } 
+
+36:  CMD -> CH_FUNC .
+
+37:  CMD -> WHILE .
+
+38:  CMD -> ATR .
+
+39:  CMD -> IF .
+
+40:  ATR -> id . = string ; 
+     INCR -> id . -- 
+     ATR -> id . = num ; 
+     ATR -> id . = EXPR_MAT ; 
+     ATR -> id . = CH_FUNC ; 
+     ATR -> id . = ch ; 
+     INCR -> id . ++ 
+     ATR -> id . = id ; 
+     CH_FUNC -> id . ( ) ; 
+
+41:  IF -> if . ( TESTE ) { CMDS } 
+     IF -> if . ( TESTE ) { CMDS } else { CMDS } 
+
+42:  FUNCAO -> TIPO id ( ) { DECL_VAR . CMDS return id ; } 
+     ATR -> . id = num ; 
+     CMD -> . FOR 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     ATR -> . id = id ; 
+     CMD -> . CH_FUNC 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = string ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     ATR -> . id = ch ; 
+     CMDS -> . CMD CMDS 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CH_FUNC -> . id ( ) ; 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+
+43:  CMD -> INCR ; .
+
+44:  FOR -> for ( . ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     ATR_FOR -> . id = num 
+
+45:  CMDS -> CMD CMDS .
+
+46:  EXPR_REL -> . id OP_REL id 
+     EXPR_REL -> . num OP_REL id 
+     TESTE -> . EXPR_REL 
+     EXPR_REL -> . id OP_REL num 
+     WHILE -> while ( . TESTE ) { CMDS } 
+     TESTE -> . EXPR_REL OP_LOG TESTE 
+     EXPR_REL -> . num OP_REL num 
+
+47:  MAIN -> main { DECL_VAR CMDS } .
+
+48:  INCR -> id -- .
+
+49:  INCR -> id ++ .
+
+50:  CH_FUNC -> . id ( ) ; 
+     ATR -> id = . string ; 
+     ATR -> id = . num ; 
+     EXPR_MAT -> . id OP_ARIT id 
+     ATR -> id = . EXPR_MAT ; 
+     ATR -> id = . CH_FUNC ; 
+     EXPR_MAT -> . num OP_ARIT id 
+     EXPR_MAT -> . num OP_ARIT num 
+     ATR -> id = . ch ; 
+     ATR -> id = . id ; 
+     EXPR_MAT -> . id OP_ARIT num 
+
+51:  CH_FUNC -> id ( . ) ; 
+
+52:  IF -> if ( . TESTE ) { CMDS } 
+     TESTE -> . EXPR_REL 
+     EXPR_REL -> . id OP_REL id 
+     EXPR_REL -> . id OP_REL num 
+     TESTE -> . EXPR_REL OP_LOG TESTE 
+     EXPR_REL -> . num OP_REL num 
+     IF -> if ( . TESTE ) { CMDS } else { CMDS } 
+     EXPR_REL -> . num OP_REL id 
+
+53:  FUNCAO -> TIPO id ( ) { DECL_VAR CMDS . return id ; } 
+
+54:  FOR -> for ( ATR_FOR . ; TESTE ; INCR ) { CMDS } 
+
+55:  ATR_FOR -> id . = num 
+
+56:  OP_REL -> . >= 
+     OP_REL -> . > 
+     EXPR_REL -> num . OP_REL num 
+     OP_REL -> . <= 
+     OP_REL -> . == 
+     OP_REL -> . < 
+     EXPR_REL -> num . OP_REL id 
+     OP_REL -> . != 
+
+57:  WHILE -> while ( TESTE . ) { CMDS } 
+
+58:  EXPR_REL -> id . OP_REL id 
+     EXPR_REL -> id . OP_REL num 
+     OP_REL -> . >= 
+     OP_REL -> . > 
+     OP_REL -> . <= 
+     OP_REL -> . == 
+     OP_REL -> . < 
+     OP_REL -> . != 
+
+59:  OP_LOG -> . || 
+     TESTE -> EXPR_REL . OP_LOG TESTE 
+     OP_LOG -> . && 
+     TESTE -> EXPR_REL .
+
+60:  ATR -> id = ch . ; 
+
+61:  ATR -> id = string . ; 
+
+62:  ATR -> id = CH_FUNC . ; 
+
+63:  OP_ARIT -> . * 
+     OP_ARIT -> . - 
+     OP_ARIT -> . + 
+     ATR -> id = num . ; 
+     OP_ARIT -> . / 
+     EXPR_MAT -> num . OP_ARIT id 
+     EXPR_MAT -> num . OP_ARIT num 
+     OP_ARIT -> . % 
+     OP_ARIT -> . # 
+
+64:  ATR -> id = EXPR_MAT . ; 
+
+65:  OP_ARIT -> . * 
+     OP_ARIT -> . - 
+     OP_ARIT -> . + 
+     EXPR_MAT -> id . OP_ARIT id 
+     OP_ARIT -> . / 
+     EXPR_MAT -> id . OP_ARIT num 
+     OP_ARIT -> . % 
+     ATR -> id = id . ; 
+     OP_ARIT -> . # 
+     CH_FUNC -> id . ( ) ; 
+
+66:  CH_FUNC -> id ( ) . ; 
+
+67:  IF -> if ( TESTE . ) { CMDS } 
+     IF -> if ( TESTE . ) { CMDS } else { CMDS } 
+
+68:  FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return . id ; } 
+
+69:  EXPR_REL -> . id OP_REL id 
+     TESTE -> . EXPR_REL 
+     EXPR_REL -> . id OP_REL num 
+     FOR -> for ( ATR_FOR ; . TESTE ; INCR ) { CMDS } 
+     EXPR_REL -> . num OP_REL id 
+     TESTE -> . EXPR_REL OP_LOG TESTE 
+     EXPR_REL -> . num OP_REL num 
+
+70:  ATR_FOR -> id = . num 
+
+71:  OP_REL -> >= .
+
+72:  OP_REL -> == .
+
+73:  OP_REL -> <= .
+
+74:  EXPR_REL -> num OP_REL . id 
+     EXPR_REL -> num OP_REL . num 
+
+75:  OP_REL -> != .
+
+76:  OP_REL -> < .
+
+77:  OP_REL -> > .
+
+78:  WHILE -> while ( TESTE ) . { CMDS } 
+
+79:  EXPR_REL -> id OP_REL . id 
+     EXPR_REL -> id OP_REL . num 
+
+80:  EXPR_REL -> . id OP_REL id 
+     TESTE -> . EXPR_REL 
+     EXPR_REL -> . id OP_REL num 
+     TESTE -> EXPR_REL OP_LOG . TESTE 
+     EXPR_REL -> . num OP_REL id 
+     TESTE -> . EXPR_REL OP_LOG TESTE 
+     EXPR_REL -> . num OP_REL num 
+
+81:  OP_LOG -> || .
+
+82:  OP_LOG -> && .
+
+83:  ATR -> id = ch ; .
+
+84:  ATR -> id = string ; .
+
+85:  ATR -> id = CH_FUNC ; .
+
+86:  OP_ARIT -> # .
+
+87:  OP_ARIT -> % .
+
+88:  OP_ARIT -> + .
+
+89:  OP_ARIT -> * .
+
+90:  OP_ARIT -> - .
+
+91:  OP_ARIT -> / .
+
+92:  EXPR_MAT -> num OP_ARIT . id 
+     EXPR_MAT -> num OP_ARIT . num 
+
+93: ATR -> id = num ; .
+
+94: ATR -> id = EXPR_MAT ; .
+
+95:  EXPR_MAT -> id OP_ARIT . id 
+     EXPR_MAT -> id OP_ARIT . num 
+
+96: ATR -> id = id ; .
+
+97: CH_FUNC -> id ( ) ; .
+
+98:  IF -> if ( TESTE ) . { CMDS } 
+     IF -> if ( TESTE ) . { CMDS } else { CMDS } 
+
+99: FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id . ; } 
+
+100: FOR -> for ( ATR_FOR ; TESTE . ; INCR ) { CMDS } 
+
+101: ATR_FOR -> id = num .
+
+102: EXPR_REL -> num OP_REL num .
+
+103: EXPR_REL -> num OP_REL id .
+
+104: ATR -> . id = num ; 
+     CMD -> . FOR 
+     ATR -> . id = string ; 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     WHILE -> while ( TESTE ) { . CMDS } 
+     CMD -> . CH_FUNC 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = id ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     ATR -> . id = ch ; 
+     CMDS -> . CMD CMDS 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CH_FUNC -> . id ( ) ; 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+
+105: EXPR_REL -> id OP_REL num .
+
+106: EXPR_REL -> id OP_REL id .
+
+107: TESTE -> EXPR_REL OP_LOG TESTE .
+
+108: EXPR_MAT -> num OP_ARIT num .
+
+109: EXPR_MAT -> num OP_ARIT id .
+
+110: EXPR_MAT -> id OP_ARIT num .
+
+111: EXPR_MAT -> id OP_ARIT id .
+
+112: CH_FUNC -> . id ( ) ; 
+     ATR -> . id = num ; 
+     IF -> . if ( TESTE ) { CMDS } 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     ATR -> . id = id ; 
+     CMD -> . CH_FUNC 
+     IF -> if ( TESTE ) { . CMDS } 
+     ATR -> . id = string ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+     CMDS -> . CMD CMDS 
+     ATR -> . id = ch ; 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CMD -> . FOR 
+     IF -> if ( TESTE ) { . CMDS } else { CMDS } 
+
+113: FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; . } 
+
+114: FOR -> for ( ATR_FOR ; TESTE ; . INCR ) { CMDS } 
+     INCR -> . id -- 
+     INCR -> . id ++ 
+
+115: WHILE -> while ( TESTE ) { CMDS . } 
+
+116: IF -> if ( TESTE ) { CMDS . } 
+     IF -> if ( TESTE ) { CMDS . } else { CMDS } 
+
+117: FUNCAO -> TIPO id ( ) { DECL_VAR CMDS return id ; } .
+
+118: FOR -> for ( ATR_FOR ; TESTE ; INCR . ) { CMDS } 
+
+119: INCR -> id . -- 
+     INCR -> id . ++ 
+
+120: WHILE -> while ( TESTE ) { CMDS } .
+
+121: IF -> if ( TESTE ) { CMDS } .
+     IF -> if ( TESTE ) { CMDS } . else { CMDS } 
+
+122: FOR -> for ( ATR_FOR ; TESTE ; INCR ) . { CMDS } 
+
+123: IF -> if ( TESTE ) { CMDS } else . { CMDS } 
+
+124: ATR -> . id = num ; 
+     CMD -> . FOR 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     ATR -> . id = id ; 
+     CMD -> . CH_FUNC 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = string ; 
+     INCR -> . id -- 
+     FOR -> for ( ATR_FOR ; TESTE ; INCR ) { . CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     ATR -> . id = ch ; 
+     CMDS -> . CMD CMDS 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CH_FUNC -> . id ( ) ; 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+
+125: ATR -> . id = num ; 
+     CMD -> . FOR 
+     CMD -> . INCR ; 
+     INCR -> . id ++ 
+     ATR -> . id = id ; 
+     CMD -> . CH_FUNC 
+     IF -> . if ( TESTE ) { CMDS } 
+     ATR -> . id = string ; 
+     INCR -> . id -- 
+     FOR -> . for ( ATR_FOR ; TESTE ; INCR ) { CMDS } 
+     CMDS -> . CMD 
+     ATR -> . id = EXPR_MAT ; 
+     ATR -> . id = CH_FUNC ; 
+     CMD -> . WHILE 
+     CMD -> . ATR 
+     IF -> . if ( TESTE ) { CMDS } else { CMDS } 
+     CMDS -> . CMD CMDS 
+     ATR -> . id = ch ; 
+     WHILE -> . while ( TESTE ) { CMDS } 
+     CMD -> . IF 
+     CH_FUNC -> . id ( ) ; 
+     IF -> if ( TESTE ) { CMDS } else { . CMDS } 
+
+126: FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS . } 
+
+127: IF -> if ( TESTE ) { CMDS } else { CMDS . } 
+
+128: FOR -> for ( ATR_FOR ; TESTE ; INCR ) { CMDS } .
+
+129: IF -> if ( TESTE ) { CMDS } else { CMDS } .
