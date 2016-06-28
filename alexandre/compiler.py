@@ -114,26 +114,26 @@ def main(argv):
                     break
     if runaway:
         print "%s\n%s" % (separator, separator)
-        print "  Syntactic analysis aborted..."
+        #print "  Syntactic analysis aborted..."
         sys.exit()
 
 #=======================================================================
 # Analisador Sintático
 
-#    print "%s\n%s" % (separator, separator)
-#    print "Syntactic analysis status:"
+    print "%s\n%s" % (separator, separator)
+    print "Syntactic analysis status:"
 
-#    grammar = Gramatica(producoes, producoes[0][0])
-#    slr     = Slr(grammar)
-#    result  = slr.parse(tokens)
+    grammar = Gramatica(producoes, producoes[0][0])
+    slr     = Slr(grammar)
+    result  = slr.parse(tokens)
 
-#    if result.get('result'):
-#        print '  No syntactic errors found, everything remains fine.'
-#    else:
-#        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
-#        print "  Type checking analysis aborted..."
-#        print "%s\n%s" % (separator, separator)
-#        sys.exit()
+    if result.get('result'):
+        print '  No syntactic errors found, everything remains fine.'
+    else:
+        print '  Syntactic error near "%s" at line %s' % (result.get('token'), lines[int(result.get('line'))])
+        #print "  Type checking analysis aborted..."
+        print "%s\n%s" % (separator, separator)
+        sys.exit()
 
 
 #=======================================================================
