@@ -15,7 +15,7 @@ int functionc() {
     char c;
     d = 2;
     d = d + 3;
-    return d;
+    return iglobal;
 }
 
 main {

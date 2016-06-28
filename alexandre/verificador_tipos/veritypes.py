@@ -52,13 +52,6 @@ class VerifTipos(object):
                 return scope
         return 'global'
 
-#        main = self.__types_hash__.get('main',None)
-#        print main
-#        
-#        #for scope in self.__types_hash__:
-#        #    print scope        
-        return
-
     # Preenche tabela de tipos com todas a variáveis e constantes
     # Define os limites de cada escopo
     def build_type_tables(self):
@@ -139,19 +132,19 @@ class VerifTipos(object):
                 
                 if   'attr'in symbol:
                     test_result = (True, "")
-            #        test_result = self.attr_check(line,i+1)
+            #        test_result = self.attr_check(line,i+1,scope)
                 
                 elif 'op_arit' in symbol:
                     test_result = (True, "")
-            #        test_result = self.op_arit_check(line,i+1)
+            #        test_result = self.op_arit_check(line,i+1,scope)
                 
                 elif 'op_rel' in symbol:
                     test_result = (True, "")
-            #        test_result = self.op_rel_check(line,i+1)
+            #        test_result = self.op_rel_check(line,i+1,scope)
                 
                 elif 'op_logic' in symbol:
                     test_result = (True, "")
-            #        test_result = self.op_logic_check(line,i+1)
+            #        test_result = self.op_logic_check(line,i+1,scope)
                 
                 elif 'return' in symbol:
                     test_result = self.return_check(line,i+1,scope)
@@ -179,7 +172,7 @@ class VerifTipos(object):
                 return ('const','int')
             if self.is_float(symbol_id):
                 return ('const','float')
-        elif symbol_attr == 'ch' and symbol_id != 'type':
+        elif symbol_attr == 'ch'     and symbol_id != 'type':
             return ('const','char')
         elif symbol_attr == 'string' and symbol_id != 'type':
             return ('const','string')

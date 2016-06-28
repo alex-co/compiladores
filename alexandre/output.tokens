@@ -10,12 +10,12 @@
 <type;string>
 <strv;id>
 <;;>
-<type;int>
-<iglobal;id>
-<;;>
 <strv;id>
 <attr;=>
 <"abc123";string>
+<type;int>
+<iglobal;id>
+<;;>
 <reserved;const>
 <type;int>
 <UM;id>
@@ -50,7 +50,7 @@
 <3;num>
 <;;>
 <reserved;return>
-<d;id>
+<iglobal;id>
 <;;>
 <;}>
 <reserved;main>
