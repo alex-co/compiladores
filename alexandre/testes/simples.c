@@ -76,6 +76,10 @@ main {
 
     /* *** Decremento aplicado a string *** */
     /* m--; */
+    
+    if( g > h ) {
+        i = j * k;
+    }
 
     j = 2; j--;
     k = i + j;

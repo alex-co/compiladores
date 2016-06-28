@@ -228,6 +228,10 @@ class VerifTipos(object):
             return (False, "Variable '%s' was not found in this scope (%s)." % (line[index+1][0],scope))
         if type_before[1] == 'unknown':
             return (False, "Variable '%s' was not found in this scope (%s)." % (line[index-1][0],scope))
+        if type_before[1] not in {'int','float'}: 
+            return (False, "Relational operators only applies to number types, '%s' was found instead." % (type_before[1]))
+        if type_after[1] not in {'int','float'}:
+            return (False, "Relational operators only applies to number types, '%s' was found instead." % (type_after[1]))
         if type_before[1] != type_after[1]:
             return (False, "Found '%s' %s '%s' : operands have different types." % (type_before[1],operator,type_after[1]))
         return (True, "")
@@ -241,6 +245,10 @@ class VerifTipos(object):
             return (False, "Variable '%s' was not found in this scope (%s)." % (line[index+1][0],scope))
         if type_before[1] == 'unknown':
             return (False, "Variable '%s' was not found in this scope (%s)." % (line[index-1][0],scope))
+        if type_before[1] not in {'int','float'}: 
+            return (False, "Logic operators only applies to number types, '%s' was found instead." % (type_before[1]))
+        if type_after[1]  not in {'int','float'}:
+            return (False, "Logic operators only applies to number types, '%s' was found instead." % (type_after[1]))
         if type_before[1] != type_after[1]:
             return (False, "Found '%s' %s '%s' : operands have different types." % (type_before[1],operator,type_after[1]))
         return (True, "")
