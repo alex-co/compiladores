@@ -2,13 +2,17 @@
 int    intv;
 float  floatv;
 char   chv;
-string stringv;
+string strv;
+strv = "abc123"
 int    iglobal;
 
 const int UM = 1; 
 
 int functionc() {
-    int d;
+    int   d;
+    float f;
+    string s;
+    char c;
     d = 2;
     d = d + 3;
     return d;

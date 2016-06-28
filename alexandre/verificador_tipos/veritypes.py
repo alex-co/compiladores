@@ -3,9 +3,6 @@
 
 import sys, copy
 
-    # TODO: Tratar casos de retorno de funções
-    # TODO: Tratar casos com declarações de constantes
-
 #-----------------------------------------------------------------------
 
 class VerifTipos(object):
@@ -16,10 +13,11 @@ class VerifTipos(object):
 
         self.__symbols_list__ = symbols_list
         self.clean_symbols_list()
-        self.__types_list__  = [['int'],['char'],['float'],['string'],['const']]
-        self.__types_hash__  = {}
+        self.__types_list__   = [['int'],['char'],['float'],['string'],['const']]
+        self.__scope_limits__ = {}
+        self.__types_hash__   = {}
         self.build_type_tables()
-        self.__matching__    = self.parse_lines()
+        self.__matching__     = self.parse_lines()
 
     # Remove caracteres {<,>}, campos vazios por ' ' e separador por ','
     def clean_symbols_list(self):
@@ -44,22 +42,38 @@ class VerifTipos(object):
         for line in the_list:
             if symbol_type in line[0]:
                 line.append(symbol)
+                
+    def get_scope(self,line_n):
+        keys = list(self.__scope_limits__.keys())
+        for scope in keys:
+            ini = self.__scope_limits__[scope][0]
+            fim = self.__scope_limits__[scope][1]
+            if ini <= int(line_n) <= fim:
+                return scope
+        return 'global'
 
-    # Preenche tabela de tipos com todas a variáveis declaradas
+#        main = self.__types_hash__.get('main',None)
+#        print main
+#        
+#        #for scope in self.__types_hash__:
+#        #    print scope        
+        return
+
+    # Preenche tabela de tipos com todas a variáveis e constantes
+    # Define os limites de cada escopo
     def build_type_tables(self):
 
         self.__types_hash__['global'] = copy.deepcopy(self.__types_list__)
         typeset = self.__types_hash__['global']
+        self.__scope_limits__['global'] = [1,1]
+        scopelm = self.__scope_limits__['global']
 
         wait_next_symbol = False
-        skip_steps = 0
 
         for i in range(0,len(self.__symbols_list__)):
+            lin_n = int(self.__symbols_list__[i][0])
+            scopelm[1] = lin_n
             for j in range(1,len(self.__symbols_list__[i])):
-                
-                if skip_steps > 0:
-                    skip_steps -= 1;
-                    break
 
                 symbol_id   = self.get_symbol_from_list(i,j,0)[0]
                 symbol_attr = self.get_symbol_from_list(i,j,0)[1]
@@ -68,16 +82,25 @@ class VerifTipos(object):
                 if symbol_attr == 'main' and symbol_id == 'reserved':
                     self.__types_hash__['main'] = copy.deepcopy(self.__types_list__)
                     typeset = self.__types_hash__['main']
+                    self.__scope_limits__['main'] = [lin_n,lin_n]
+                    scopelm[1] -= 1
+                    scopelm = self.__scope_limits__['main']
                     continue
 
                 # escopo de funções
-                if symbol_attr == 'id' and self.__symbols_list__[i][j+1].split(',')[1] == '(':
+                if symbol_attr == 'id' and self.get_symbol_from_list(i,j,1)[1] == '(':
                     self.__types_hash__[symbol_id] = copy.deepcopy(self.__types_list__)
                     self.__types_hash__[symbol_id].append(['return'])
                     typeset = self.__types_hash__[symbol_id]
+                    self.__scope_limits__[symbol_id] = [lin_n,lin_n]
+                    scopelm[1] -= 1
+                    scopelm = self.__scope_limits__[symbol_id]
+                    prv1_symbol = self.get_symbol_from_list(i,j,-1)
+                    self.insert_symbol_in_list(typeset,symbol_id,prv1_symbol[1])
 
                 # declarações das variáveis
                 if symbol_id == 'type':
+                    if self.get_symbol_from_list(i,j,2)[1] == '(': continue
                     nxt1_symbol = self.get_symbol_from_list(i,j,1)
                     if nxt1_symbol[1] == 'id':
                         self.insert_symbol_in_list(typeset,nxt1_symbol[0],symbol_attr)
@@ -98,6 +121,10 @@ class VerifTipos(object):
         # Imprime lista de variáveis por escopo
         #for item in self.__types_hash__:
         #    print "%s => %s" % (item, self.__types_hash__[item])
+        #sys.exit()
+        # Imprime lista com limites dos escopos
+        #for item in self.__scope_limits__:
+        #    print "%s => %s" % (item, self.__scope_limits__[item])
 
     # Procura por símbolos que sugerem uma checagem de tipos
     # e encaminha para checagem no método apropriado.
@@ -107,16 +134,28 @@ class VerifTipos(object):
 
         for line in self.__symbols_list__:
             line_n = int(line[0]) + 1
-
+            scope = self.get_scope(line_n)
             for i, symbol in enumerate(line[1:]):
+                
                 if   'attr'in symbol:
-                    test_result = self.attr_check(line,i+1)
+                    test_result = (True, "")
+            #        test_result = self.attr_check(line,i+1)
+                
                 elif 'op_arit' in symbol:
-                    test_result = self.op_arit_check(line,i+1)
+                    test_result = (True, "")
+            #        test_result = self.op_arit_check(line,i+1)
+                
                 elif 'op_rel' in symbol:
-                    test_result = self.op_rel_check(line,i+1)
+                    test_result = (True, "")
+            #        test_result = self.op_rel_check(line,i+1)
+                
                 elif 'op_logic' in symbol:
-                    test_result = self.op_logic_check(line,i+1)
+                    test_result = (True, "")
+            #        test_result = self.op_logic_check(line,i+1)
+                
+                elif 'return' in symbol:
+                    test_result = self.return_check(line,i+1,scope)
+                
                 else:
                     continue
 
@@ -125,27 +164,39 @@ class VerifTipos(object):
 
         return '  No type mismatch found, everything is definitely fine!'
 
-    # Restorna o tipo de um determinado 'id' da tabela de tipos
+    # Retorna o tipo de um determinado 'id' da tabela de tipos
     # ou checa o tipo de um número ou o tipo de uma constante.
-    def get_type(self,line,index,pos):
-
-        symbol_id   = line[index+pos].split(',')[0]
-        symbol_attr = line[index+pos].split(',')[1]
-
+    def get_type(self,line,index,offset,scope):
+       
+        symbol_id   = line[index+offset].split(',')[0]
+        symbol_attr = line[index+offset].split(',')[1]
+        scopes = ['global']
+        if scope != 'global':
+            scopes.append(scope)
+        # se for uma constante não declarada
         if symbol_attr == 'num':
             if self.is_int(symbol_id):
-                return 'int'
+                return ('const','int')
             if self.is_float(symbol_id):
-                return 'float'
-        elif symbol_attr == 'ch':
-            return 'char'
-        elif symbol_attr == 'string':
-            return 'string'
-        else:
-            for type_line in self.__types_list__:
+                return ('const','float')
+        elif symbol_attr == 'ch' and symbol_id != 'type':
+            return ('const','char')
+        elif symbol_attr == 'string' and symbol_id != 'type':
+            return ('const','string')
+        # se for uma variável ou constante declarada
+        the_type = []
+        for s in scopes:
+            for type_line in self.__types_hash__[s]:
                 if symbol_id in type_line:
-                    return type_line[0]
-        return 'unknown'
+                    the_type.append(type_line[0])
+        if not the_type:
+            return ('none','unknown')
+        if len(the_type) == 1 or 'return' in the_type:
+            return ('var',the_type[0])
+        if 'const' in the_type:
+            return ('const',the_type[0])
+        return ('fail','unknown')
+
 
     # Checa os tipos envolvidos em uma atribuição.
     def attr_check(self,line,index):
@@ -204,10 +255,20 @@ class VerifTipos(object):
         if type_before != type_after:
             return (False, "Found '%s' %s '%s' : operands have different types." % (type_before,operator,type_after))
         return (True, "")
+        
+    # Checa retorno de função.
+    def return_check(self,line,index,scope):
+        type_after = self.get_type(line,index,1,scope)
+        for type_line in self.__types_hash__[scope]:
+            if scope in type_line:
+                type_fret = type_line[0]
+                break
+        if type_after[1] != type_fret:
+            return (False, "Function must return '%s', '%s' found instead" % (type_fret,type_after[1]))
+        return (True, "")
 
     # Determina se um 'string' representa um 'float'.
     def is_float(self,number):
-
         try:
             num = float(number)
         except ValueError:
@@ -216,7 +277,6 @@ class VerifTipos(object):
 
     # Determina se um 'string' representa um 'int'.
     def is_int(self,number):
-
         try:
             num = int(number)
         except ValueError:
