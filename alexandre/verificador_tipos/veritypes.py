@@ -129,9 +129,7 @@ class VerifTipos(object):
             scope = self.get_scope(line_n)
             for i, symbol in enumerate(line[1:]):
                 if   'attr'in symbol:
-            #        test_result = (True, "")
                     test_result = self.attr_check(line,i+1,scope)
-
                 elif 'op_arit' in symbol:
                     test_result = self.op_arit_check(line,i+1,scope)
                 elif 'op_rel' in symbol:
