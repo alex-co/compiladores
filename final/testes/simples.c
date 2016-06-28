@@ -4,19 +4,20 @@ float  floatv;
 char   chv;
 string strv;
 int    iglobal;
+int d;
 
 const float PI = 3.1415;
 const int   UM = 1;
 
 int functionc() {
 
-    int    d;
+    int    intv;
     float  f;
-    string s;
+    float s;
     char   c;
-
+    
     f = PI - 0.1415;
-    s = "abc";
+    s = 56.0 + '9';
     c = 'a';
     d = 2;
     d = d + 3;
